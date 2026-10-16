@@ -76,7 +76,7 @@ export function StaffForm({ structure, id, initial }: { structure: Structure; id
             <Field label={id ? "كلمة مرور جديدة (اختياري)" : "كلمة المرور"} required={!id} error={err("password")} hint="8 أحرف على الأقل">
               <Input dir="ltr" type="password" autoComplete="new-password" {...register("password")} />
             </Field>
-            <label className="flex items-center justify-between self-end rounded-md border px-3 py-2 text-sm">
+            <label className="flex items-center justify-between self-end rounded-xl bg-fill/60 px-3.5 py-2.5 text-sm">
               الحساب نشط
               <Switch checked={v.active} onCheckedChange={(c) => setValue("active", c)} />
             </label>
@@ -141,7 +141,7 @@ export function StaffForm({ structure, id, initial }: { structure: Structure; id
                   {PERMISSIONS.filter((p) => PERMISSION_LABELS[p].group === g).map((p) => {
                     const on = v.permissions.includes(p);
                     return (
-                      <label key={p} className="flex cursor-pointer items-center justify-between gap-3 rounded-md px-2 py-1.5 text-sm hover:bg-slate-50">
+                      <label key={p} className="flex cursor-pointer items-center justify-between gap-3 rounded-md px-2 py-1.5 text-sm hover:bg-fill/50">
                         {PERMISSION_LABELS[p].label}
                         <Switch checked={on} onCheckedChange={(c) => setValue("permissions", c ? [...v.permissions, p] : v.permissions.filter((x) => x !== p))} />
                       </label>
@@ -150,7 +150,7 @@ export function StaffForm({ structure, id, initial }: { structure: Structure; id
                 </div>
               </div>
             ))}
-            <p className="rounded-md bg-surface px-3 py-2 text-xs text-muted-foreground">
+            <p className="rounded-xl bg-surface px-3 py-2 text-xs text-muted-foreground">
               لا يستطيع أعضاء الطاقم فتح أو إغلاق الجلسات أو تعديل الحضور بعد الإغلاق. التسجيل متاح فقط أثناء فتح الجلسة.
             </p>
           </div>

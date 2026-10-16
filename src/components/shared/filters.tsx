@@ -53,16 +53,18 @@ export function FilterBar({ searchPlaceholder = "بحث…", selects = [], child
   const active = selects.some((s) => sp.get(s.name)) || !!sp.get("q") || (extra ?? []).some((e) => sp.get(e.name));
 
   return (
-    <div className={cn("no-print flex flex-wrap items-center gap-2 border-b px-4 py-3", className)}>
-      <div className="relative min-w-52 flex-1 sm:max-w-xs">
-        <Search className="pointer-events-none absolute start-2.5 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
-        <Input value={q} onChange={(e) => setQ(e.target.value)} placeholder={searchPlaceholder} className="ps-8" aria-label="بحث" />
+    <div className={cn("no-print flex flex-wrap items-center gap-2 border-b-[0.5px] px-4 py-3 sm:px-5", className)}>
+      <div className="relative w-full min-w-52 flex-1 sm:w-auto sm:max-w-xs">
+        <Search className="pointer-events-none absolute start-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+        <Input value={q} onChange={(e) => setQ(e.target.value)} placeholder={searchPlaceholder} className="ps-9" aria-label="بحث" type="search" />
       </div>
+      {/* phones: two filters per row; larger screens: inline */}
+      <div className="grid w-full grid-cols-2 gap-2 empty:hidden sm:flex sm:w-auto sm:flex-wrap">
       {selects.map((s) => {
         const parentVal = s.dependsOn ? sp.get(s.dependsOn) : null;
         const opts = s.optionParents && parentVal ? s.options.filter((o) => !s.optionParents![o.value] || s.optionParents![o.value] === parentVal) : s.options;
         return (
-          <div key={s.name} className="w-full min-w-36 sm:w-44">
+          <div key={s.name} className="min-w-0 sm:w-44">
             <NativeSelect aria-label={s.label} value={sp.get(s.name) ?? ""} onChange={(e) => set({ [s.name]: e.target.value })}>
               <option value="">{s.allLabel ?? `كل ${s.label}`}</option>
               {opts.map((o) => (
@@ -75,11 +77,12 @@ export function FilterBar({ searchPlaceholder = "بحث…", selects = [], child
         );
       })}
       {(extra ?? []).map((e) => (
-        <label key={e.name} className="flex items-center gap-1.5 text-xs text-muted-foreground">
-          {e.label}
-          <Input type="date" className="w-38" value={sp.get(e.name) ?? ""} onChange={(ev) => set({ [e.name]: ev.target.value })} />
+        <label key={e.name} className="flex min-w-0 items-center gap-1.5 text-xs text-muted-foreground">
+          <span className="shrink-0">{e.label}</span>
+          <Input type="date" className="min-w-0 sm:w-38" value={sp.get(e.name) ?? ""} onChange={(ev) => set({ [e.name]: ev.target.value })} />
         </label>
       ))}
+      </div>
       {children}
       {pending && <Loader2 className="size-4 animate-spin text-muted-foreground" />}
       {active && (
@@ -89,7 +92,7 @@ export function FilterBar({ searchPlaceholder = "بحث…", selects = [], child
             setQ("");
             set(Object.fromEntries([["q", null], ...selects.map((s) => [s.name, null]), ...(extra ?? []).map((e) => [e.name, null])]));
           }}
-          className="flex items-center gap-1 rounded-md px-2 py-1 text-xs text-muted-foreground hover:bg-slate-100 hover:text-foreground"
+          className="pressable flex cursor-pointer items-center gap-1 rounded-full px-2.5 py-1 text-xs font-medium text-primary hover:bg-brand-soft"
         >
           <X className="size-3.5" /> مسح الفلاتر
         </button>
@@ -103,19 +106,19 @@ export function ParamTabs({ name, options, className }: { name: string; options:
   const { sp, set } = useUrlState();
   const current = sp.get(name) ?? options[0]?.value ?? "";
   return (
-    <div className={cn("no-print inline-flex h-9 max-w-full items-center overflow-x-auto rounded-lg bg-slate-100 p-1", className)}>
+    <div className={cn("no-print scrollbar-none inline-flex h-9 max-w-full items-center overflow-x-auto rounded-[10px] bg-fill p-[3px]", className)}>
       {options.map((o) => (
         <button
           key={o.value}
           type="button"
           onClick={() => set({ [name]: o.value === options[0].value ? null : o.value })}
           className={cn(
-            "inline-flex h-full items-center gap-1.5 rounded-md px-3 text-sm font-medium whitespace-nowrap text-muted-foreground",
-            current === o.value && "bg-background text-foreground shadow-sm",
+            "inline-flex h-full cursor-pointer items-center gap-1.5 rounded-[7px] px-3.5 text-[13px] font-medium whitespace-nowrap text-foreground/75 transition-all duration-200",
+            current === o.value && "bg-background font-semibold text-foreground shadow-[0_3px_8px_rgba(0,0,0,0.12),0_0_0_0.5px_rgba(0,0,0,0.04)] dark:bg-[#636366]",
           )}
         >
           {o.label}
-          {o.count != null && <span className="rounded bg-slate-200/80 px-1.5 text-[11px] tabular-nums">{o.count}</span>}
+          {o.count != null && <span className="rounded-full bg-fill-strong px-1.5 text-[11px] tabular-nums">{o.count}</span>}
         </button>
       ))}
     </div>

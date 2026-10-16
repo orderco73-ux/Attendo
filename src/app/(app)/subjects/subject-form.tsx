@@ -98,7 +98,7 @@ export function SubjectForm({ structure, doctors, id, initial }: { structure: St
           </div>
         </Section>
         <Section title="الخيارات">
-          <div className="divide-y">
+          <div className="divide-y-[0.5px]">
             <label className="flex items-center justify-between gap-3 px-5 py-3.5 text-sm">
               <span>
                 طلبات التسجيل تتطلب موافقة الدكتور

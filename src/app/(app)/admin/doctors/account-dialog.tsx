@@ -61,7 +61,7 @@ export function AccountDialog({ role, user }: { role: "doctor" | "admin"; user?:
           <Field label={user ? "كلمة مرور جديدة" : "كلمة المرور"} required={!user} error={formState.errors.password?.message} hint="8 أحرف على الأقل">
             <Input dir="ltr" type="password" autoComplete="new-password" {...register("password")} />
           </Field>
-          <label className="flex items-center justify-between rounded-md border px-3 py-2.5 text-sm">
+          <label className="flex items-center justify-between rounded-xl bg-fill/60 px-3.5 py-3 text-sm">
             الحساب نشط
             <Switch checked={watch("active")} onCheckedChange={(c) => setValue("active", c)} />
           </label>

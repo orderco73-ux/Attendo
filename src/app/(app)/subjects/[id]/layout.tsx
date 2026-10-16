@@ -53,7 +53,7 @@ export default async function SubjectLayout({ children, params }: { children: Re
         title={
           <span className="flex flex-wrap items-center gap-2">
             {subject.name}
-            <span className="ltr rounded-md bg-brand-soft px-2 py-0.5 font-mono text-sm text-primary">{subject.code}</span>
+            <span className="ltr rounded-xl bg-brand-soft px-2 py-0.5 font-mono text-sm text-primary">{subject.code}</span>
             {!subject.active && <Badge variant="muted">متوقفة</Badge>}
           </span>
         }

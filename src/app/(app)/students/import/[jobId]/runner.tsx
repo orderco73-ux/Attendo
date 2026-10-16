@@ -43,20 +43,20 @@ export function ImportRunner({ jobId, status, pendingValid, totals }: { jobId: s
 
   if (done) {
     return (
-      <div className="flex items-center gap-3 rounded-lg border border-success/30 bg-success-soft px-4 py-3 text-sm text-success">
+      <div className="flex items-center gap-3 rounded-2xl bg-success-soft px-4 py-3 text-sm text-success">
         <CheckCircle2 className="size-5" /> اكتمل الاستيراد. تم إنشاء {t.created} طالب بأكواد جديدة.
       </div>
     );
   }
   if (status === "cancelled") {
     return (
-      <div className="flex items-center gap-3 rounded-lg border bg-slate-50 px-4 py-3 text-sm text-muted-foreground">
+      <div className="flex items-center gap-3 rounded-2xl bg-fill/60 px-4 py-3 text-sm text-muted-foreground">
         <XCircle className="size-5" /> تم إلغاء هذا الاستيراد.
       </div>
     );
   }
   return (
-    <div className="rounded-lg border bg-card p-4">
+    <div className="rounded-2xl bg-card shadow-card p-4">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div className="text-sm">
           <div className="font-semibold">2. تأكيد الاستيراد</div>

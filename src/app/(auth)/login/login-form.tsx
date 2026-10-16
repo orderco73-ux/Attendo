@@ -30,7 +30,7 @@ export function LoginForm() {
       }}
     >
       {error && (
-        <div role="alert" className="flex items-start gap-2 rounded-md border border-destructive/20 bg-danger-soft px-3 py-2.5 text-sm text-destructive">
+        <div role="alert" className="flex items-start gap-2 rounded-xl bg-danger-soft px-3 py-2.5 text-sm text-destructive">
           <AlertCircle className="mt-0.5 size-4 shrink-0" />
           {error}
         </div>
@@ -46,7 +46,7 @@ export function LoginForm() {
           </button>
         </div>
       </Field>
-      <Button type="submit" size="lg" loading={pending} className="mt-2">
+      <Button type="submit" size="lg" loading={pending} className="mt-2 w-full">
         دخول
       </Button>
     </form>

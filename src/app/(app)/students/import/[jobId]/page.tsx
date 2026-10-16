@@ -57,7 +57,7 @@ export default async function ImportJobPage({ params, searchParams }: { params: 
         <ImportRunner jobId={jobId} status={job.status} pendingValid={pendingValid} totals={t} />
       </div>
       <Section className="mt-6" title="الصفوف">
-        <div className="border-b px-4 py-3">
+        <div className="border-b-[0.5px] px-4 py-3">
           <ParamTabs
             name="status"
             options={[

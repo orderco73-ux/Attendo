@@ -7,7 +7,7 @@ export function SubjectTabs({ tabs }: { tabs: { href: string; label: string }[] 
   const pathname = usePathname();
   if (pathname.endsWith("/edit")) return null;
   return (
-    <nav className="no-print -mx-4 overflow-x-auto border-b px-4 sm:mx-0 sm:px-0">
+    <nav className="no-print -mx-4 overflow-x-auto border-b-[0.5px] px-4 sm:mx-0 sm:px-0">
       <ul className="flex min-w-max gap-1">
         {tabs.map((t) => {
           const active = pathname === t.href;

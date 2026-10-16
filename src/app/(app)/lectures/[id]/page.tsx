@@ -105,7 +105,7 @@ export default async function LecturePage({ params, searchParams }: { params: Pr
       />
 
       {status === "cancelled" && (
-        <div className="mb-5 rounded-md border border-destructive/20 bg-danger-soft px-4 py-3 text-sm text-destructive">
+        <div className="mb-5 rounded-xl bg-danger-soft px-4 py-3 text-sm text-destructive">
           المحاضرة ملغاة{l.cancelReason ? `: ${l.cancelReason}` : ""}. لا تُحتسب ضمن الحضور أو الغياب.
         </div>
       )}

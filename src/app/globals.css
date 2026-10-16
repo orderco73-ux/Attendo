@@ -1,43 +1,109 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-@custom-variant dark (&:is(.dark *));
+/* Dark mode is driven by a class on <html> (set before paint from the saved choice or the system setting). */
+@custom-variant dark (&:where(.dark, .dark *));
 
+/*
+ * Design tokens — iOS-inspired: grouped grey page (#F2F2F7), white elevated surfaces,
+ * hairline separators, translucent fills, brand blue #2563EB (AA contrast on white).
+ */
 :root {
-  --radius: 0.625rem;
-  --background: #ffffff;
-  --foreground: #0f172a;
+  color-scheme: light;
+  --radius: 0.875rem;
+
+  /* Surfaces */
+  --surface: #f2f2f7; /* page (grouped background) */
+  --background: #ffffff; /* elevated surfaces, controls */
   --card: #ffffff;
-  --card-foreground: #0f172a;
+  --card-foreground: #1c1c1e;
   --popover: #ffffff;
-  --popover-foreground: #0f172a;
+  --popover-foreground: #1c1c1e;
+  --sidebar: rgba(249, 249, 251, 0.78);
+  --bar: rgba(255, 255, 255, 0.72); /* frosted bars */
+
+  /* Text */
+  --foreground: #1c1c1e;
+  --muted: #f2f2f7;
+  --muted-foreground: #6e6e73;
+
+  /* Fills & separators (iOS system fills) */
+  --fill: rgba(118, 118, 128, 0.12);
+  --fill-strong: rgba(118, 118, 128, 0.2);
+  --border: rgba(60, 60, 67, 0.13);
+  --input: rgba(60, 60, 67, 0.16);
+
+  /* Brand */
   --primary: #2563eb;
   --primary-foreground: #ffffff;
-  --secondary: #f8fafc;
-  --secondary-foreground: #0f172a;
-  --muted: #f8fafc;
-  --muted-foreground: #64748b;
-  --accent: #eff6ff;
-  --accent-foreground: #1d4ed8;
-  --destructive: #dc2626;
-  --destructive-foreground: #ffffff;
-  --success: #15803d;
-  --success-soft: #f0fdf4;
-  --warning: #b45309;
-  --warning-soft: #fffbeb;
-  --danger-soft: #fef2f2;
-  --border: #e2e8f0;
-  --input: #e2e8f0;
   --ring: #3b82f6;
+  --accent: rgba(37, 99, 235, 0.09);
+  --accent-foreground: #1d4ed8;
+  --brand-soft: rgba(37, 99, 235, 0.09);
   --brand-2: #3b82f6;
   --brand-3: #60a5fa;
-  --brand-soft: #eff6ff;
-  --surface: #f8fafc;
-  --sidebar: #ffffff;
+  --secondary: rgba(37, 99, 235, 0.09);
+  --secondary-foreground: #1d4ed8;
+
+  /* Status */
+  --success: #1f8a3c;
+  --success-soft: rgba(52, 199, 89, 0.13);
+  --warning: #b25000;
+  --warning-soft: rgba(255, 149, 0, 0.14);
+  --destructive: #d70015;
+  --destructive-foreground: #ffffff;
+  --danger-soft: rgba(255, 59, 48, 0.11);
+  --switch-on: #34c759;
+
+  /* Elevation */
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.04), 0 1px 1px rgba(0, 0, 0, 0.02);
+  --shadow-pop: 0 12px 40px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.dark {
+  color-scheme: dark;
+  --surface: #000000;
+  --background: #1c1c1e;
+  --card: #1c1c1e;
+  --card-foreground: #f5f5f7;
+  --popover: #2c2c2e;
+  --popover-foreground: #f5f5f7;
+  --sidebar: rgba(22, 22, 24, 0.82);
+  --bar: rgba(22, 22, 24, 0.72);
+
+  --foreground: #f5f5f7;
+  --muted: #2c2c2e;
+  --muted-foreground: #98989f;
+
+  --fill: rgba(118, 118, 128, 0.24);
+  --fill-strong: rgba(118, 118, 128, 0.36);
+  --border: rgba(84, 84, 88, 0.6);
+  --input: rgba(84, 84, 88, 0.65);
+
+  --primary: #3b82f6;
+  --primary-foreground: #ffffff;
+  --ring: #60a5fa;
+  --accent: rgba(59, 130, 246, 0.2);
+  --accent-foreground: #93bbff;
+  --brand-soft: rgba(59, 130, 246, 0.2);
+  --secondary: rgba(59, 130, 246, 0.2);
+  --secondary-foreground: #93bbff;
+
+  --success: #30d158;
+  --success-soft: rgba(48, 209, 88, 0.17);
+  --warning: #ffb340;
+  --warning-soft: rgba(255, 159, 10, 0.18);
+  --destructive: #ff453a;
+  --destructive-foreground: #ffffff;
+  --danger-soft: rgba(255, 69, 58, 0.18);
+  --switch-on: #30d158;
+
+  --shadow-card: 0 0 0 0.5px rgba(255, 255, 255, 0.06);
+  --shadow-pop: 0 16px 48px rgba(0, 0, 0, 0.6), 0 0 0 0.5px rgba(255, 255, 255, 0.08);
 }
 
 @theme inline {
-  --font-sans: var(--font-arabic), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-arabic), -apple-system, BlinkMacSystemFont, "SF Pro Text", ui-sans-serif, system-ui, sans-serif;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -67,10 +133,18 @@
   --color-brand-soft: var(--brand-soft);
   --color-surface: var(--surface);
   --color-sidebar: var(--sidebar);
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
+  --color-bar: var(--bar);
+  --color-fill: var(--fill);
+  --color-fill-strong: var(--fill-strong);
+  --color-switch-on: var(--switch-on);
+  --radius-sm: calc(var(--radius) - 6px);
+  --radius-md: calc(var(--radius) - 4px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --shadow-card: var(--shadow-card);
+  --shadow-pop: var(--shadow-pop);
+  --ease-ios: cubic-bezier(0.32, 0.72, 0, 1);
 }
 
 @layer base {
@@ -79,10 +153,15 @@
   }
   html {
     -webkit-tap-highlight-color: transparent;
+    text-size-adjust: 100%;
   }
   body {
     @apply bg-surface text-foreground antialiased;
-    font-feature-settings: "ss01";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  ::selection {
+    background: color-mix(in srgb, var(--primary) 25%, transparent);
   }
   /* Latin digits & codes keep LTR order inside RTL text */
   .ltr {
@@ -91,9 +170,51 @@
   }
 }
 
+@layer utilities {
+  /* Subtle press feedback (iOS-like) */
+  .pressable {
+    transition: transform 160ms var(--ease-ios), opacity 160ms var(--ease-ios), background-color 160ms;
+  }
+  .pressable:active {
+    transform: scale(0.97);
+  }
+  /* Frosted glass bars */
+  .glass {
+    background: var(--bar);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    backdrop-filter: saturate(180%) blur(20px);
+  }
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .scrollbar-none {
+    scrollbar-width: none;
+  }
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
 @media print {
   .no-print {
     display: none !important;
+  }
+  :root,
+  .dark {
+    --surface: #fff;
+    --background: #fff;
+    --card: #fff;
+    --foreground: #000;
+    --card-foreground: #000;
   }
   body {
     background: #fff;

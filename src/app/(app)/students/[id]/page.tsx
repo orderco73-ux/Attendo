@@ -42,7 +42,7 @@ export default async function StudentPage({ params }: { params: Promise<{ id: st
         title={
           <span className="flex flex-wrap items-center gap-2">
             {s.fullName}
-            <span className="ltr rounded-md bg-brand-soft px-2 py-0.5 font-mono text-base text-primary">{s.code}</span>
+            <span className="ltr rounded-xl bg-brand-soft px-2 py-0.5 font-mono text-base text-primary">{s.code}</span>
             {archived && <Badge variant="muted">مؤرشف</Badge>}
           </span>
         }
@@ -89,7 +89,7 @@ export default async function StudentPage({ params }: { params: Promise<{ id: st
             {enrollments.length === 0 ? (
               <EmptyState title="غير مسجل في أي مادة" className="py-10" />
             ) : (
-              <ul className="divide-y">
+              <ul className="divide-y-[0.5px]">
                 {enrollments.map((e) => (
                   <li key={String(e._id)} className="flex items-center justify-between gap-3 px-5 py-3 text-sm">
                     <Link href={`/subjects/${e.subject._id}`} className="font-medium hover:text-primary">
@@ -104,7 +104,7 @@ export default async function StudentPage({ params }: { params: Promise<{ id: st
         </div>
         <Section title="بطاقة الطالب (QR)" description="تُطبع وتُسلم للطالب. تثبت امتلاك البطاقة وليس الحضور الفعلي.">
           <div className="print-area flex flex-col items-center gap-3 p-6">
-            <div id="student-card" className="w-full max-w-64 rounded-lg border p-4 text-center">
+            <div id="student-card" className="w-full max-w-64 rounded-[22px] bg-card p-5 text-center shadow-pop ring-[0.5px] ring-border">
               <div className="text-xs text-muted-foreground">Attendo nosait</div>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={qr} alt={`رمز QR للطالب ${s.code}`} className="mx-auto my-2 size-44" />

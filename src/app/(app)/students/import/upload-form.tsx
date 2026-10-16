@@ -70,14 +70,14 @@ export function UploadForm({ colleges }: { colleges: { id: string; name: string 
           setDrag(false);
           pick(e.dataTransfer.files[0]);
         }}
-        className={cn("flex flex-col items-center gap-2 rounded-lg border-2 border-dashed px-6 py-10 text-center transition-colors hover:border-primary/50 hover:bg-brand-soft/40", drag && "border-primary bg-brand-soft")}
+        className={cn("flex flex-col items-center gap-2 rounded-2xl border-2 border-dashed border-fill-strong px-6 py-10 text-center transition-colors hover:border-primary/50 hover:bg-brand-soft/40", drag && "border-primary bg-brand-soft")}
       >
         {file ? <FileSpreadsheet className="size-8 text-success" /> : <UploadCloud className="size-8 text-primary" />}
         <span className="font-medium">{file ? file.name : "اسحب ملف Excel هنا أو اضغط للاختيار"}</span>
         <span className="text-xs text-muted-foreground">{file ? `${(file.size / 1024).toFixed(0)} كيلوبايت` : ".xlsx — حتى 2 ميجابايت"}</span>
       </button>
       <input ref={input} type="file" accept=".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" className="hidden" onChange={(e) => pick(e.target.files?.[0])} />
-      {error && <p role="alert" className="rounded-md bg-danger-soft px-3 py-2 text-sm text-destructive">{error}</p>}
+      {error && <p role="alert" className="rounded-xl bg-danger-soft px-3 py-2 text-sm text-destructive">{error}</p>}
       <div>
         <Button onClick={upload} disabled={!file || !college} loading={busy}>تحليل الملف ومعاينته</Button>
       </div>

@@ -15,7 +15,7 @@ const dot = (cls: string) => <span className={cn("size-1.5 rounded-full", cls)} 
 
 export function LectureStatusBadge({ status }: { status: LectureStatus }) {
   const map: Record<LectureStatus, [BadgeVariant, string]> = {
-    scheduled: ["muted", "bg-slate-400"],
+    scheduled: ["muted", "bg-muted-foreground/60"],
     open: ["success", "bg-success animate-pulse"],
     closed: ["default", "bg-primary"],
     cancelled: ["danger", "bg-destructive"],

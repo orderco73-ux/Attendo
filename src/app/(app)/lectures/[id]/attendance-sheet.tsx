@@ -119,7 +119,7 @@ export function AttendanceSheet({ lectureId, status, canEdit, items, total, page
                       {i.record && i.record.history.length > 0 && (
                         <Popover>
                           <PopoverTrigger asChild>
-                            <button className="rounded p-1 text-muted-foreground hover:bg-slate-100" aria-label="سجل التغييرات">
+                            <button className="rounded p-1 text-muted-foreground hover:bg-fill" aria-label="سجل التغييرات">
                               <History className="size-3.5" />
                             </button>
                           </PopoverTrigger>
@@ -161,7 +161,7 @@ export function AttendanceSheet({ lectureId, status, canEdit, items, total, page
                             data-on={st === s}
                             disabled={pending || st === s}
                             onClick={() => (closed ? setCorrection({ item: i, to: s }) : apply(i, s))}
-                            className={cn("h-7 rounded-md border px-2 text-xs font-medium transition-colors hover:bg-slate-50 disabled:cursor-default", BTN[s])}
+                            className={cn("pressable h-7 cursor-pointer rounded-full bg-fill px-3 text-xs font-medium transition-colors hover:bg-fill-strong disabled:cursor-default", BTN[s])}
                           >
                             {RECORD_STATUS_LABELS[s]}
                           </button>

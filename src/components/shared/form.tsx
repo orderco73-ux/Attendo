@@ -56,19 +56,19 @@ export function CheckList({ options, value, onChange, emptyText = "لا توجد
   const [q, setQ] = React.useState("");
   const shown = q ? options.filter((o) => o.label.includes(q) || o.hint?.includes(q)) : options;
   return (
-    <div className="rounded-md border">
+    <div className="overflow-hidden rounded-xl bg-fill/60">
       {options.length > 8 && (
-        <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="تصفية…" className="w-full border-b bg-transparent px-3 py-2 text-sm outline-none" />
+        <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="تصفية…" className="w-full border-b-[0.5px] bg-transparent px-3 py-2.5 text-sm outline-none placeholder:text-muted-foreground" />
       )}
       <div className="overflow-y-auto p-1" style={{ maxHeight }}>
         {shown.length === 0 && <p className="px-2 py-3 text-center text-xs text-muted-foreground">{emptyText}</p>}
         {shown.map((o) => {
           const checked = value.includes(o.value);
           return (
-            <label key={o.value} className="flex cursor-pointer items-center gap-2 rounded px-2 py-1.5 text-sm hover:bg-slate-50">
+            <label key={o.value} className="flex cursor-pointer items-center gap-2.5 rounded-lg px-2.5 py-2 text-sm hover:bg-fill">
               <input
                 type="checkbox"
-                className="size-4 accent-[var(--primary)]"
+                className="size-[18px] cursor-pointer accent-[var(--primary)]"
                 checked={checked}
                 onChange={() => onChange(checked ? value.filter((v) => v !== o.value) : [...value, o.value])}
               />

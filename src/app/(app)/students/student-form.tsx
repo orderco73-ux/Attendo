@@ -99,7 +99,7 @@ export function StudentForm({ structure, id, initial, years }: { structure: Stru
         <Textarea rows={2} {...register("notes")} />
       </Field>
       {sameNameConflict && (
-        <label className="flex items-start gap-2 rounded-md border border-warning/30 bg-warning-soft px-3 py-2.5 text-sm text-warning">
+        <label className="flex items-start gap-2 rounded-xl bg-warning-soft px-3 py-2.5 text-sm text-warning">
           <input type="checkbox" className="mt-1 size-4" {...register("allowSameName")} />
           <span>
             <Info className="me-1 inline size-4" />

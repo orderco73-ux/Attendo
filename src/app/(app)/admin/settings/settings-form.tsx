@@ -50,7 +50,7 @@ export function SettingsForm({ initial }: { initial: AppSettings }) {
         </div>
       </Section>
       <Section title="استعلام الطلاب (صفحة عامة)">
-        <div className="divide-y">
+        <div className="divide-y-[0.5px]">
           <Toggle label="تفعيل صفحة الاستعلام" checked={v.inquiryEnabled} onChange={(c) => setValue("inquiryEnabled", c)} />
           <Toggle label="عرض المحاضرات القادمة" checked={v.showUpcomingInInquiry} onChange={(c) => setValue("showUpcomingInInquiry", c)} />
           <div className="px-5 py-3.5">
@@ -74,7 +74,7 @@ export function SettingsForm({ initial }: { initial: AppSettings }) {
         </div>
       </Section>
       <Section title="المواد والتسجيل">
-        <div className="divide-y">
+        <div className="divide-y-[0.5px]">
           <Toggle label="طلبات التسجيل تتطلب موافقة الدكتور افتراضيًا" hint="يُطبق على المواد الجديدة." checked={v.defaultRequiresEnrollmentApproval} onChange={(c) => setValue("defaultRequiresEnrollmentApproval", c)} />
           <Toggle label="السماح للدكاترة بتعيين مساعدين للمادة" hint="المساعدون من أعضاء الطاقم يمكنهم تسجيل الحضور أثناء فتح الجلسة." checked={v.doctorsCanManageAssistants} onChange={(c) => setValue("doctorsCanManageAssistants", c)} />
         </div>

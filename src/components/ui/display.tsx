@@ -3,17 +3,17 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const badgeVariants = cva(
-  "inline-flex items-center gap-1 rounded-md border px-2 py-0.5 text-xs font-medium whitespace-nowrap [&>svg]:size-3",
+  "inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium whitespace-nowrap [&>svg]:size-3",
   {
     variants: {
       variant: {
-        default: "border-transparent bg-brand-soft text-accent-foreground",
-        solid: "border-transparent bg-primary text-primary-foreground",
-        outline: "text-foreground",
-        muted: "border-transparent bg-slate-100 text-slate-600",
-        success: "border-transparent bg-success-soft text-success",
-        warning: "border-transparent bg-warning-soft text-warning",
-        danger: "border-transparent bg-danger-soft text-destructive",
+        default: "bg-brand-soft text-accent-foreground",
+        solid: "bg-primary text-primary-foreground",
+        outline: "text-foreground ring-[0.5px] ring-border",
+        muted: "bg-fill text-muted-foreground",
+        success: "bg-success-soft text-success",
+        warning: "bg-warning-soft text-warning",
+        danger: "bg-danger-soft text-destructive",
       },
     },
     defaultVariants: { variant: "default" },
@@ -26,55 +26,57 @@ function Badge({ className, variant, ...props }: React.ComponentProps<"span"> & 
   return <span data-slot="badge" className={cn(badgeVariants({ variant }), className)} {...props} />;
 }
 
+/* Cards: elevated white (dark: #1C1C1E) surfaces without hard borders, iOS grouped style. */
 function Card({ className, ...props }: React.ComponentProps<"div">) {
-  return <div data-slot="card" className={cn("rounded-lg border bg-card text-card-foreground", className)} {...props} />;
+  return <div data-slot="card" className={cn("rounded-2xl bg-card text-card-foreground shadow-card", className)} {...props} />;
 }
 function CardHeader({ className, ...props }: React.ComponentProps<"div">) {
-  return <div className={cn("flex flex-wrap items-center justify-between gap-3 border-b px-5 py-3.5", className)} {...props} />;
+  return <div className={cn("flex flex-wrap items-center justify-between gap-3 px-5 pt-4 pb-2", className)} {...props} />;
 }
 function CardTitle({ className, ...props }: React.ComponentProps<"h3">) {
-  return <h3 className={cn("text-[15px] font-semibold", className)} {...props} />;
+  return <h3 className={cn("text-[17px] font-semibold tracking-tight", className)} {...props} />;
 }
 function CardDescription({ className, ...props }: React.ComponentProps<"p">) {
-  return <p className={cn("text-sm text-muted-foreground", className)} {...props} />;
+  return <p className={cn("text-[13px] text-muted-foreground", className)} {...props} />;
 }
 function CardContent({ className, ...props }: React.ComponentProps<"div">) {
   return <div className={cn("px-5 py-4", className)} {...props} />;
 }
 function CardFooter({ className, ...props }: React.ComponentProps<"div">) {
-  return <div className={cn("flex items-center gap-2 border-t px-5 py-3", className)} {...props} />;
+  return <div className={cn("flex items-center gap-2 border-t-[0.5px] px-5 py-3", className)} {...props} />;
 }
 
 function Table({ className, ...props }: React.ComponentProps<"table">) {
   return (
-    <div className="relative w-full overflow-x-auto">
-      <table className={cn("w-full caption-bottom text-sm", className)} {...props} />
+    <div className="relative w-full overflow-x-auto overscroll-x-contain">
+      {/* On phones keep cells on one line and let the table scroll sideways instead of wrapping words */}
+      <table className={cn("w-full caption-bottom text-sm max-sm:[&_td]:whitespace-nowrap", className)} {...props} />
     </div>
   );
 }
 function TableHeader({ className, ...props }: React.ComponentProps<"thead">) {
-  return <thead className={cn("bg-surface [&_tr]:border-b", className)} {...props} />;
+  return <thead className={cn("[&_tr]:border-b-[0.5px] [&_tr]:hover:bg-transparent", className)} {...props} />;
 }
 function TableBody({ className, ...props }: React.ComponentProps<"tbody">) {
   return <tbody className={cn("[&_tr:last-child]:border-0", className)} {...props} />;
 }
 function TableRow({ className, ...props }: React.ComponentProps<"tr">) {
-  return <tr className={cn("border-b transition-colors hover:bg-slate-50/70", className)} {...props} />;
+  return <tr className={cn("border-b-[0.5px] transition-colors hover:bg-fill/40", className)} {...props} />;
 }
 function TableHead({ className, ...props }: React.ComponentProps<"th">) {
   return (
     <th
-      className={cn("h-10 px-3 text-start align-middle text-xs font-semibold whitespace-nowrap text-muted-foreground", className)}
+      className={cn("h-10 px-4 text-start align-middle text-[12px] font-medium whitespace-nowrap text-muted-foreground", className)}
       {...props}
     />
   );
 }
 function TableCell({ className, ...props }: React.ComponentProps<"td">) {
-  return <td className={cn("px-3 py-2.5 align-middle", className)} {...props} />;
+  return <td className={cn("px-4 py-3 align-middle", className)} {...props} />;
 }
 
 function Skeleton({ className, ...props }: React.ComponentProps<"div">) {
-  return <div data-slot="skeleton" className={cn("animate-pulse rounded-md bg-slate-200/70", className)} {...props} />;
+  return <div data-slot="skeleton" className={cn("animate-pulse rounded-lg bg-fill", className)} {...props} />;
 }
 
 function Progress({ value, className }: { value: number; className?: string }) {
@@ -85,9 +87,9 @@ function Progress({ value, className }: { value: number; className?: string }) {
       aria-valuenow={Math.round(v)}
       aria-valuemin={0}
       aria-valuemax={100}
-      className={cn("h-2 w-full overflow-hidden rounded-full bg-slate-100", className)}
+      className={cn("h-1.5 w-full overflow-hidden rounded-full bg-fill", className)}
     >
-      <div className="h-full rounded-full bg-primary transition-all" style={{ width: v + "%" }} />
+      <div className="h-full rounded-full bg-primary transition-[width] duration-500 ease-[var(--ease-ios)]" style={{ width: v + "%" }} />
     </div>
   );
 }

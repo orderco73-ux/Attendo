@@ -14,8 +14,8 @@ export function CheckinPanel({ lectureId, url, qr, open, title }: { lectureId: s
     <Section title="رابط التسجيل الذاتي" description={open ? "اعرض الرمز للطلاب ليمسحوه بهواتفهم." : "سيعمل الرابط عند فتح الجلسة."}>
       <div className="grid justify-items-center gap-3 p-5">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={qr} alt="رمز QR لرابط الحضور" className="size-48 rounded-md border p-1" />
-        <div className="ltr w-full truncate rounded-md bg-surface px-2 py-1.5 text-center font-mono text-[11px] text-muted-foreground">{url}</div>
+        <img src={qr} alt="رمز QR لرابط الحضور" className="size-48 rounded-2xl bg-white p-2 ring-[0.5px] ring-border" />
+        <div className="ltr w-full truncate rounded-xl bg-surface px-2 py-1.5 text-center font-mono text-[11px] text-muted-foreground">{url}</div>
         <div className="flex flex-wrap justify-center gap-2">
           <Button
             size="sm"

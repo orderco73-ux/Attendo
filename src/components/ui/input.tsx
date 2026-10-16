@@ -1,33 +1,23 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 
+/** iOS-style filled field: tinted fill, no hard border, soft focus ring. */
+const FIELD =
+  "w-full min-w-0 rounded-[10px] border-0 bg-fill px-3 text-[15px] text-foreground transition-[background-color,box-shadow] outline-none placeholder:text-muted-foreground/80 disabled:cursor-not-allowed disabled:opacity-50 focus-visible:bg-background focus-visible:ring-[3px] focus-visible:ring-ring/35 aria-invalid:ring-2 aria-invalid:ring-destructive/50 sm:text-sm";
+
 function Input({ className, type, ...props }: React.ComponentProps<"input">) {
   return (
     <input
       type={type}
       data-slot="input"
-      className={cn(
-        "h-9 w-full min-w-0 rounded-md border border-input bg-background px-3 py-1 text-sm shadow-xs transition-[color,box-shadow] outline-none placeholder:text-muted-foreground file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:cursor-not-allowed disabled:opacity-50",
-        "focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/30",
-        "aria-invalid:border-destructive aria-invalid:ring-destructive/20",
-        className,
-      )}
+      className={cn(FIELD, "h-10 py-1 file:border-0 file:bg-transparent file:text-sm file:font-medium sm:h-9", className)}
       {...props}
     />
   );
 }
 
 function Textarea({ className, ...props }: React.ComponentProps<"textarea">) {
-  return (
-    <textarea
-      data-slot="textarea"
-      className={cn(
-        "flex min-h-20 w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-xs outline-none placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/30 disabled:opacity-50 aria-invalid:border-destructive",
-        className,
-      )}
-      {...props}
-    />
-  );
+  return <textarea data-slot="textarea" className={cn(FIELD, "flex min-h-20 py-2.5", className)} {...props} />;
 }
 
-export { Input, Textarea };
+export { Input, Textarea, FIELD };

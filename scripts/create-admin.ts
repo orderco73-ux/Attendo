@@ -30,7 +30,9 @@ async function main() {
 
   if (!/^\S+@\S+\.\S+$/.test(email)) throw new Error("Invalid email");
   if (name.length < 3) throw new Error("Name too short");
-  if (password.length < 12) throw new Error("Use at least 12 characters for administrator passwords");
+  // --allow-weak: explicit opt-in down to the app-wide minimum (8); change it later from the account page.
+  const min = process.argv.includes("--allow-weak") ? 8 : 12;
+  if (password.length < min) throw new Error(`Use at least ${min} characters for administrator passwords`);
 
   await connectDB();
   const existing = await User.findOne({ email });

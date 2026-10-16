@@ -19,6 +19,8 @@ export interface NavItem {
   href: string;
   label: string;
   icon: NavIcon;
+  /** Short label for the mobile tab bar */
+  short?: string;
 }
 export interface NavGroup {
   label?: string;
@@ -26,23 +28,23 @@ export interface NavGroup {
 }
 
 export function buildNav(a: Actor): NavGroup[] {
-  const groups: NavGroup[] = [{ items: [{ href: "/dashboard", label: "لوحة التحكم", icon: "dashboard" }] }];
+  const groups: NavGroup[] = [{ items: [{ href: "/dashboard", label: "لوحة التحكم", short: "الرئيسية", icon: "dashboard" }] }];
   if (isAdmin(a)) {
     groups.push(
       {
         label: "الأكاديمي",
         items: [
-          { href: "/admin/structure", label: "الهيكل الأكاديمي", icon: "structure" },
+          { href: "/admin/structure", label: "الهيكل الأكاديمي", short: "الهيكل", icon: "structure" },
           { href: "/subjects", label: "المواد", icon: "subjects" },
           { href: "/students", label: "الطلاب", icon: "students" },
-          { href: "/students/import", label: "استيراد Excel", icon: "import" },
+          { href: "/students/import", label: "استيراد Excel", short: "استيراد", icon: "import" },
         ],
       },
       {
         label: "الحضور",
         items: [
-          { href: "/admin/sessions", label: "جلسات الحضور", icon: "sessions" },
-          { href: "/requests", label: "طلبات التسجيل", icon: "requests" },
+          { href: "/admin/sessions", label: "جلسات الحضور", short: "الجلسات", icon: "sessions" },
+          { href: "/requests", label: "طلبات التسجيل", short: "الطلبات", icon: "requests" },
           { href: "/reports", label: "التقارير", icon: "reports" },
         ],
       },
@@ -63,7 +65,7 @@ export function buildNav(a: Actor): NavGroup[] {
       label: "التدريس",
       items: [
         { href: "/subjects", label: "موادي", icon: "subjects" },
-        { href: "/requests", label: "طلبات التسجيل", icon: "requests" },
+        { href: "/requests", label: "طلبات التسجيل", short: "الطلبات", icon: "requests" },
         { href: "/reports", label: "التقارير", icon: "reports" },
       ],
     });
@@ -71,9 +73,9 @@ export function buildNav(a: Actor): NavGroup[] {
   }
   const items: NavItem[] = [];
   if (hasPermission(a, "students.view")) items.push({ href: "/students", label: "الطلاب", icon: "students" });
-  if (hasPermission(a, "students.import")) items.push({ href: "/students/import", label: "استيراد Excel", icon: "import" });
+  if (hasPermission(a, "students.import")) items.push({ href: "/students/import", label: "استيراد Excel", short: "استيراد", icon: "import" });
   items.push({ href: "/subjects", label: "المواد", icon: "subjects" });
-  if (hasPermission(a, "enrollment.request")) items.push({ href: "/requests", label: "طلبات التسجيل", icon: "requests" });
+  if (hasPermission(a, "enrollment.request")) items.push({ href: "/requests", label: "طلبات التسجيل", short: "الطلبات", icon: "requests" });
   if (hasPermission(a, "reports.view")) items.push({ href: "/reports", label: "التقارير", icon: "reports" });
   groups.push({ label: "المهام", items });
   return groups;

@@ -9,12 +9,12 @@ export default function Loading() {
         <Skeleton className="h-4 w-96 max-w-full" />
       </div>
       <Skeleton className="h-20 w-full" />
-      <div className="rounded-lg border bg-card">
+      <div className="rounded-2xl bg-card shadow-card">
         <div className="border-b p-4">
           <Skeleton className="h-9 w-72" />
         </div>
         {Array.from({ length: 7 }).map((_, i) => (
-          <div key={i} className="flex items-center gap-4 border-b px-4 py-3 last:border-0">
+          <div key={i} className="flex items-center gap-4 border-b-[0.5px] px-4 py-3 last:border-0">
             <Skeleton className="h-4 w-16" />
             <Skeleton className="h-4 flex-1" />
             <Skeleton className="h-4 w-24" />

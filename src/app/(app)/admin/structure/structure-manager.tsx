@@ -263,7 +263,7 @@ function EditDialog({ editing, structure, onClose }: { editing: NonNullable<Edit
                 <Field label="الاسم" required error={errors.name} className="col-span-2"><Input value={s("name")} onChange={(e) => set("name", e.target.value)} /></Field>
                 <Field label="الرمز" required error={errors.code}><Input dir="ltr" value={s("code")} onChange={(e) => set("code", e.target.value)} /></Field>
               </div>
-              <label className="flex items-center justify-between rounded-md border px-3 py-2.5 text-sm">
+              <label className="flex items-center justify-between rounded-xl bg-fill/60 px-3.5 py-3 text-sm">
                 <span>
                   قسم عام «بدون تخصص»
                   <span className="block text-xs text-muted-foreground">قسم واحد فقط لكل كلية. يُستخدم تلقائيًا للسنوات بدون تخصص.</span>
@@ -292,7 +292,7 @@ function EditDialog({ editing, structure, onClose }: { editing: NonNullable<Edit
               <Field label="اسم الشعبة" required error={errors.name}><Input value={s("name")} onChange={(e) => set("name", e.target.value)} placeholder="مثال: أ" /></Field>
             </>
           )}
-          <label className="flex items-center justify-between rounded-md border px-3 py-2.5 text-sm">
+          <label className="flex items-center justify-between rounded-xl bg-fill/60 px-3.5 py-3 text-sm">
             مفعل
             <Switch checked={!!v.active} onCheckedChange={(c) => set("active", c)} />
           </label>

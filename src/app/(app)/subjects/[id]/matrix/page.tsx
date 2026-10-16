@@ -46,7 +46,7 @@ export default async function MatrixPage({ params, searchParams }: { params: Pro
       }
     >
       <FilterBar searchPlaceholder="بحث بالاسم أو الكود…" extra={[{ name: "from", label: "من", type: "date" }, { name: "to", label: "إلى", type: "date" }]} />
-      <div className="flex flex-wrap gap-3 border-b px-4 py-2 text-xs text-muted-foreground">
+      <div className="flex flex-wrap gap-3 border-b-[0.5px] px-4 py-2 text-xs text-muted-foreground">
         {Object.values(CELL).map((c) => (
           <span key={c.label} className="flex items-center gap-1">
             <span className={cn("grid size-5 place-items-center rounded font-bold", c.cls)}>{c.sym}</span>
@@ -76,7 +76,7 @@ export default async function MatrixPage({ params, searchParams }: { params: Pro
             </thead>
             <tbody>
               {m.rows.map((r) => (
-                <tr key={r.studentId} className="border-b last:border-0 hover:bg-slate-50/60">
+                <tr key={r.studentId} className="border-b last:border-0 hover:bg-fill/50">
                   <td className="sticky right-0 z-10 bg-card px-3 py-1.5 whitespace-nowrap">
                     <div className="max-w-52 truncate font-medium">{r.fullName}</div>
                     <div className="ltr text-start font-mono text-[11px] text-primary">{r.code}</div>

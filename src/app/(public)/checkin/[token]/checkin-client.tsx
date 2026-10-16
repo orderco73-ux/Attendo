@@ -66,7 +66,7 @@ export function CheckinClient({ token, method }: { token: string; method: Attend
 
   if (result?.ok) {
     return (
-      <div className="rounded-lg border border-success/30 bg-success-soft p-8 text-center" role="status">
+      <div className="rounded-2xl bg-success-soft p-8 text-center" role="status">
         <CheckCircle2 className="mx-auto size-12 text-success" />
         <h2 className="mt-3 text-xl font-bold text-success">{result.message}</h2>
         <p className="mt-1 text-sm text-success/80">مرحبًا {result.studentName} 👋</p>
@@ -76,12 +76,12 @@ export function CheckinClient({ token, method }: { token: string; method: Attend
 
   const busy = step !== "idle";
   return (
-    <div className="grid gap-4 rounded-lg border bg-card p-5">
+    <div className="grid gap-4 rounded-2xl bg-card shadow-card p-5">
       {needsQr ? (
         <div className="grid gap-3">
           <p className="text-sm text-muted-foreground">امسح رمز QR الموجود على بطاقة الطالب الخاصة بك.</p>
           {qr ? (
-            <div className="flex items-center justify-between rounded-md bg-success-soft px-3 py-2 text-sm text-success">
+            <div className="flex items-center justify-between rounded-xl bg-success-soft px-3 py-2 text-sm text-success">
               <span className="flex items-center gap-2"><QrCode className="size-4" /> تم قراءة البطاقة <span className="ltr font-mono">{qr.split(".")[1]}</span></span>
               <button type="button" onClick={() => setQr(null)} aria-label="مسح"><X className="size-4" /></button>
             </div>
@@ -103,7 +103,7 @@ export function CheckinClient({ token, method }: { token: string; method: Attend
         </Field>
       )}
       {needsLocation && (
-        <p className="flex items-start gap-2 rounded-md bg-surface px-3 py-2 text-xs text-muted-foreground">
+        <p className="flex items-start gap-2 rounded-xl bg-surface px-3 py-2 text-xs text-muted-foreground">
           <MapPin className="mt-0.5 size-3.5 shrink-0" /> سيُطلب إذن الوصول إلى موقعك للتحقق من وجودك في مكان المحاضرة. لا يتم حفظ موقعك، فقط المسافة.
         </p>
       )}
@@ -112,7 +112,7 @@ export function CheckinClient({ token, method }: { token: string; method: Attend
         {step === "locating" ? "جارٍ تحديد الموقع…" : step === "sending" ? "جارٍ التسجيل…" : "تسجيل الحضور"}
       </Button>
       {result && !result.ok && (
-        <div role="alert" className="flex items-start gap-2 rounded-md border border-destructive/20 bg-danger-soft px-3 py-2.5 text-sm text-destructive">
+        <div role="alert" className="flex items-start gap-2 rounded-xl bg-danger-soft px-3 py-2.5 text-sm text-destructive">
           <XCircle className="mt-0.5 size-4 shrink-0" /> {result.message}
         </div>
       )}

@@ -24,7 +24,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   return (
     <>
       {denied && (
-        <div className="mb-4 flex items-center gap-2 rounded-md border border-warning/30 bg-warning-soft px-3 py-2 text-sm text-warning">
+        <div className="mb-4 flex items-center gap-2 rounded-xl bg-warning-soft px-3 py-2 text-sm text-warning">
           <AlertTriangle className="size-4" /> ليس لديك صلاحية للوصول إلى الصفحة المطلوبة.
         </div>
       )}
@@ -37,7 +37,7 @@ async function ActivityList({ subjectIds }: { subjectIds: Parameters<typeof rece
   const items = await recentActivity(subjectIds, 8);
   if (!items.length) return <EmptyState title="لا يوجد نشاط بعد" description="سيظهر هنا آخر تسجيلات الحضور." className="py-10" />;
   return (
-    <ul className="divide-y">
+    <ul className="divide-y-[0.5px]">
       {items.map((a) => (
         <li key={a.id} className="flex items-center justify-between gap-3 px-4 py-2.5 text-sm sm:px-5">
           <div className="min-w-0">
@@ -82,10 +82,10 @@ async function AdminDashboard({ actor }: { actor: Actor }) {
         </Section>
         <Section title="مهام معلقة">
           {tasks.length ? (
-            <ul className="divide-y">
+            <ul className="divide-y-[0.5px]">
               {tasks.map((t) => (
                 <li key={t.href}>
-                  <Link href={t.href} className="flex items-center justify-between gap-2 px-5 py-3 text-sm hover:bg-slate-50">
+                  <Link href={t.href} className="flex items-center justify-between gap-2 px-5 py-3 text-sm hover:bg-fill/50">
                     <span className="flex items-center gap-2">
                       <AlertTriangle className="size-4 text-warning" />
                       {t.label}
@@ -148,10 +148,10 @@ async function DoctorDashboard({ actor }: { actor: Actor }) {
         </Section>
         <Section title="موادي" actions={<Button asChild variant="outline" size="sm"><Link href="/subjects">عرض الكل</Link></Button>}>
           {subjects.items.length ? (
-            <ul className="divide-y">
+            <ul className="divide-y-[0.5px]">
               {subjects.items.slice(0, 8).map((s) => (
                 <li key={s.id}>
-                  <Link href={`/subjects/${s.id}`} className="flex items-center justify-between gap-3 px-5 py-3 text-sm hover:bg-slate-50">
+                  <Link href={`/subjects/${s.id}`} className="flex items-center justify-between gap-3 px-5 py-3 text-sm hover:bg-fill/50">
                     <span className="flex min-w-0 items-center gap-2">
                       <BookOpen className="size-4 shrink-0 text-primary" />
                       <span className="truncate font-medium">{s.name}</span>
@@ -170,7 +170,7 @@ async function DoctorDashboard({ actor }: { actor: Actor }) {
         </Section>
         <Section title="طلبات التسجيل" actions={<Button asChild variant="outline" size="sm"><Link href="/requests">مراجعة</Link></Button>}>
           {pending.length ? (
-            <ul className="divide-y">
+            <ul className="divide-y-[0.5px]">
               {pending.map((p) => (
                 <li key={String(p._id)} className="px-5 py-2.5 text-sm">
                   <div className="font-medium">{p.student?.fullName}</div>
@@ -214,7 +214,7 @@ async function StaffDashboard({ actor }: { actor: Actor }) {
         <Section title="الجلسات المفتوحة" description={canMark ? "اختر جلسة لتسجيل حضور الطلاب" : undefined}>
           <LectureList items={open} emptyTitle="لا توجد جلسات مفتوحة الآن" />
           {canMark && open.length > 0 && (
-            <div className="border-t px-5 py-2.5 text-xs text-muted-foreground">
+            <div className="border-t-[0.5px] px-5 py-2.5 text-xs text-muted-foreground">
               <PlayCircle className="me-1 inline size-3.5" />
               يمكنك تسجيل الحضور فقط أثناء فتح الجلسة وللطلاب داخل نطاقك.
             </div>

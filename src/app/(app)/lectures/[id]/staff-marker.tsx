@@ -81,7 +81,7 @@ export function StaffMarker({ lectureId }: { lectureId: string }) {
             <Button type="submit" loading={pending}><UserCheck /> تسجيل</Button>
           </form>
           {shown.length > 0 && (
-            <ul className="divide-y rounded-md border">
+            <ul className="divide-y-[0.5px] overflow-hidden rounded-xl bg-fill/50">
               {shown.map((h) => (
                 <li key={h.studentId} className="flex items-center justify-between gap-3 px-3 py-2 text-sm">
                   <div className="min-w-0">
@@ -99,7 +99,7 @@ export function StaffMarker({ lectureId }: { lectureId: string }) {
           )}
           {q.trim().length >= 2 && shown.length === 0 && <p className="text-xs text-muted-foreground">لا يوجد طالب مسجل في المادة بهذا الاسم/الكود ضمن نطاقك.</p>}
           {last && (
-            <div className="flex items-center gap-2 rounded-md bg-success-soft px-3 py-2 text-sm text-success" role="status">
+            <div className="flex items-center gap-2 rounded-xl bg-success-soft px-3 py-2 text-sm text-success" role="status">
               <CheckCircle2 className="size-4" />
               {last.already ? "مسجل مسبقًا:" : "آخر تسجيل:"} {last.name} <span className="ltr font-mono text-xs">{last.code}</span>
             </div>

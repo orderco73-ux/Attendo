@@ -21,7 +21,7 @@ export default async function LecturesPage({ params, searchParams }: { params: P
   const caps = subjectCapabilities(actor, data.subject);
   return (
     <Section title="المحاضرات وجلسات الحضور" actions={caps.manage && <NewLectureButton subjectId={id} defaultRadius={settings.defaultRadiusM} today={todayKey()} />}>
-      <div className="border-b px-4 py-3">
+      <div className="border-b-[0.5px] px-4 py-3">
         <ParamTabs
           name="status"
           options={[

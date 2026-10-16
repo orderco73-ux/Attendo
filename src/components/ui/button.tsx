@@ -5,24 +5,24 @@ import { Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex shrink-0 cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors outline-none focus-visible:ring-[3px] focus-visible:ring-ring/40 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+  "pressable inline-flex shrink-0 cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-[10px] text-sm font-medium outline-none select-none focus-visible:ring-[3px] focus-visible:ring-ring/40 disabled:pointer-events-none disabled:opacity-40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90",
-        destructive: "bg-destructive text-white hover:bg-destructive/90",
-        outline: "border bg-background hover:bg-accent hover:text-accent-foreground",
-        secondary: "bg-brand-soft text-accent-foreground hover:bg-blue-100",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
+        default: "bg-primary text-primary-foreground shadow-[0_1px_2px_rgba(37,99,235,0.25)] hover:brightness-110",
+        destructive: "bg-destructive text-white hover:brightness-110",
+        outline: "bg-card text-foreground shadow-card ring-[0.5px] ring-border hover:bg-fill",
+        secondary: "bg-brand-soft text-accent-foreground hover:brightness-95 dark:hover:brightness-125",
+        ghost: "text-foreground hover:bg-fill",
         link: "text-primary underline-offset-4 hover:underline",
-        success: "bg-success text-white hover:bg-success/90",
+        success: "bg-success text-white hover:brightness-110 dark:text-black",
       },
       size: {
-        default: "h-9 px-4 py-2",
-        sm: "h-8 gap-1.5 rounded-md px-3 text-xs",
-        lg: "h-10 rounded-md px-6",
-        icon: "size-9",
-        "icon-sm": "size-8",
+        default: "h-9 px-4",
+        sm: "h-8 gap-1.5 rounded-lg px-3 text-[13px]",
+        lg: "h-11 rounded-xl px-6 text-[15px]",
+        icon: "size-9 rounded-full",
+        "icon-sm": "size-8 rounded-full",
       },
     },
     defaultVariants: { variant: "default", size: "default" },
