@@ -91,15 +91,15 @@ export default async function ReportPage({ params, searchParams }: { params: Pro
             <TableBody>
               {r.rows.map((x) => (
                 <TableRow key={x.studentId}>
-                  <TableCell className="ltr font-mono text-xs font-semibold text-primary">{x.code}</TableCell>
-                  <TableCell className="font-medium">{x.fullName}</TableCell>
-                  <TableCell className="whitespace-nowrap">{n(st.years, x.academicYear)}</TableCell>
-                  <TableCell className="whitespace-nowrap text-muted-foreground">{n(st.departments, x.department)}</TableCell>
-                  <TableCell className="text-center tabular-nums">{x.eligible}</TableCell>
-                  <TableCell className="text-center tabular-nums text-success">{x.attended}</TableCell>
-                  <TableCell className="text-center tabular-nums text-warning">{x.excused}</TableCell>
-                  <TableCell className="text-center tabular-nums text-destructive">{x.absences}</TableCell>
-                  <TableCell className="text-center"><PercentBadge value={x.percentage} threshold={settings.lowAttendanceThreshold} /></TableCell>
+                  <TableCell data-cell="subtitle" className="ltr font-mono text-xs font-semibold text-primary">{x.code}</TableCell>
+                  <TableCell data-cell="title" className="font-medium">{x.fullName}</TableCell>
+                  <TableCell data-cell="hide" className="whitespace-nowrap">{n(st.years, x.academicYear)}</TableCell>
+                  <TableCell data-cell="hide" className="whitespace-nowrap text-muted-foreground">{n(st.departments, x.department)}</TableCell>
+                  <TableCell data-label="محتسبة" className="text-center tabular-nums">{x.eligible}</TableCell>
+                  <TableCell data-label="حضور" className="text-center tabular-nums text-success">{x.attended}</TableCell>
+                  <TableCell data-label="بعذر" className="text-center tabular-nums text-warning">{x.excused}</TableCell>
+                  <TableCell data-label="غياب" className="text-center tabular-nums text-destructive">{x.absences}</TableCell>
+                  <TableCell data-cell="trailing" className="text-center"><PercentBadge value={x.percentage} threshold={settings.lowAttendanceThreshold} /></TableCell>
                 </TableRow>
               ))}
             </TableBody>

@@ -59,13 +59,13 @@ export default async function AuditPage({ searchParams }: { searchParams: Promis
                 <TableRow key={String(l._id)}>
                   <TableCell className="text-xs whitespace-nowrap text-muted-foreground">{formatDateTime(l.createdAt)}</TableCell>
                   <TableCell className="whitespace-nowrap">{l.actorName ?? "—"}</TableCell>
-                  <TableCell>
+                  <TableCell data-cell="subtitle">
                     <Badge variant={l.action.startsWith("security") || l.action.endsWith("failed") ? "danger" : l.action.includes("correct") ? "warning" : "muted"}>
                       {AUDIT_ACTION_LABELS[l.action] ?? l.action}
                     </Badge>
                   </TableCell>
-                  <TableCell className="max-w-md text-sm">{l.summary}</TableCell>
-                  <TableCell className="ltr text-xs text-muted-foreground">{l.ip ?? ""}</TableCell>
+                  <TableCell data-cell="title" className="max-w-md text-sm">{l.summary}</TableCell>
+                  <TableCell data-cell="hide" className="ltr text-xs text-muted-foreground">{l.ip ?? ""}</TableCell>
                 </TableRow>
               ))}
             </TableBody>

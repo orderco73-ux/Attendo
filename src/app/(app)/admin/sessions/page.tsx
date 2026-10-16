@@ -68,17 +68,17 @@ export default async function SessionsPage({ searchParams }: { searchParams: Pro
                 const v = toLectureView(l);
                 return (
                   <TableRow key={v.id}>
-                    <TableCell>
+                    <TableCell data-cell="subtitle">
                       <div className="font-medium">{sub(l.subject)?.name}</div>
                       <div className="ltr text-start text-xs text-muted-foreground">{sub(l.subject)?.code}</div>
                     </TableCell>
-                    <TableCell>
+                    <TableCell data-cell="title">
                       <Link href={`/lectures/${v.id}`} className="font-medium text-primary hover:underline">{v.title}</Link>
                     </TableCell>
                     <TableCell className="whitespace-nowrap">{formatDate(v.startsAt)}</TableCell>
                     <TableCell className="whitespace-nowrap tabular-nums">{formatTime(v.startsAt)} – {formatTime(v.endsAt)}</TableCell>
-                    <TableCell className="text-xs">{ATTENDANCE_METHOD_LABELS[v.method]}</TableCell>
-                    <TableCell><LectureStatusBadge status={v.status} /></TableCell>
+                    <TableCell data-cell="hide" className="text-xs">{ATTENDANCE_METHOD_LABELS[v.method]}</TableCell>
+                    <TableCell data-cell="trailing"><LectureStatusBadge status={v.status} /></TableCell>
                   </TableRow>
                 );
               })}

@@ -46,14 +46,14 @@ export default async function StaffPage({ searchParams }: { searchParams: Promis
             <TableBody>
               {data.items.map((u) => (
                 <TableRow key={u.id}>
-                  <TableCell>
+                  <TableCell data-cell="title">
                     <div className="font-medium">{u.name}</div>
                     <div className="ltr text-start text-xs text-muted-foreground">{u.email}</div>
                   </TableCell>
                   <TableCell>
                     <Badge variant="default">{u.staff?.title || STAFF_KIND_LABELS[(u.staff?.kind ?? "custom") as StaffKind]}</Badge>
                   </TableCell>
-                  <TableCell className="max-w-64 text-xs text-muted-foreground">
+                  <TableCell data-cell="hide" className="max-w-64 text-xs text-muted-foreground">
                     {u.staff?.scope.college ? (
                       <>
                         <div>السنوات: {name(st.years, u.staff.scope.academicYears)}</div>
@@ -64,9 +64,9 @@ export default async function StaffPage({ searchParams }: { searchParams: Promis
                       "—"
                     )}
                   </TableCell>
-                  <TableCell className="tabular-nums">{u.staff?.permissions.length ?? 0}</TableCell>
+                  <TableCell data-label="صلاحيات" className="tabular-nums">{u.staff?.permissions.length ?? 0}</TableCell>
                   <TableCell><ActiveBadge active={u.active} /></TableCell>
-                  <TableCell>
+                  <TableCell data-cell="trailing">
                     <div className="flex justify-end gap-1">
                       <Button asChild variant="ghost" size="icon-sm" aria-label="تعديل"><Link href={`/admin/staff/${u.id}`}><Pencil /></Link></Button>
                       <ToggleActive id={u.id} active={u.active} name={u.name} />

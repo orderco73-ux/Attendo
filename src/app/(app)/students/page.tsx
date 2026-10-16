@@ -74,17 +74,17 @@ export default async function StudentsPage({ searchParams }: { searchParams: Pro
             <TableBody>
               {data.items.map((s) => (
                 <TableRow key={s.id}>
-                  <TableCell className="ltr font-mono text-xs font-semibold text-primary">
+                  <TableCell data-cell="subtitle" className="ltr font-mono text-xs font-semibold text-primary">
                     <Link href={`/students/${s.id}`} className="hover:underline">{s.code}</Link>
                   </TableCell>
-                  <TableCell className="font-medium">
+                  <TableCell data-cell="title" className="font-medium">
                     <Link href={`/students/${s.id}`} className="hover:text-primary">{s.fullName}</Link>
                   </TableCell>
                   <TableCell className="whitespace-nowrap">{n(st.years, s.academicYear)}</TableCell>
                   <TableCell className="whitespace-nowrap text-muted-foreground">{n(st.departments, s.department)}</TableCell>
                   <TableCell className="hidden md:table-cell">{n(st.sections, s.section)}</TableCell>
                   <TableCell className="ltr hidden text-start text-xs md:table-cell">{s.registrationNumber ?? "—"}</TableCell>
-                  <TableCell>{s.status === "active" ? <Badge variant="success">نشط</Badge> : <Badge variant="muted">مؤرشف</Badge>}</TableCell>
+                  <TableCell data-cell="trailing">{s.status === "active" ? <Badge variant="success">نشط</Badge> : <Badge variant="muted">مؤرشف</Badge>}</TableCell>
                 </TableRow>
               ))}
             </TableBody>

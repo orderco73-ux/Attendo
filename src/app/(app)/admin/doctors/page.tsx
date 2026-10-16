@@ -47,12 +47,12 @@ export default async function DoctorsPage({ searchParams }: { searchParams: Prom
             <TableBody>
               {data.items.map((u) => (
                 <TableRow key={u.id}>
-                  <TableCell className="font-medium">{u.name}</TableCell>
-                  <TableCell className="ltr text-start text-muted-foreground">{u.email}</TableCell>
-                  {role === "doctor" && <TableCell className="tabular-nums">{countFor(u.id)}</TableCell>}
+                  <TableCell data-cell="title" className="font-medium">{u.name}</TableCell>
+                  <TableCell data-cell="subtitle" className="ltr text-start text-muted-foreground">{u.email}</TableCell>
+                  {role === "doctor" && <TableCell data-label="مواد" className="tabular-nums">{countFor(u.id)}</TableCell>}
                   <TableCell className="text-xs text-muted-foreground">{u.lastLoginAt ? formatDateTime(u.lastLoginAt) : "لم يسجل دخول"}</TableCell>
                   <TableCell><ActiveBadge active={u.active} /></TableCell>
-                  <TableCell>
+                  <TableCell data-cell="trailing">
                     <div className="flex justify-end gap-1">
                       <AccountDialog role={role} user={{ id: u.id, name: u.name, email: u.email, phone: u.phone ?? "", active: u.active }} />
                       {u.id !== actor.id && <ToggleActive id={u.id} active={u.active} name={u.name} />}

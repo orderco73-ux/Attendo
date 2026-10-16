@@ -57,7 +57,7 @@ export default async function SubjectLayout({ children, params }: { children: Re
             {!subject.active && <Badge variant="muted">متوقفة</Badge>}
           </span>
         }
-        description={doctors.length ? `د. ${doctors.map((d) => d.name).join("، د. ")}` : "لم يُسند دكتور بعد"}
+        description={doctors.length ? doctors.map((d) => (/^د\.?\s/.test(d.name) ? d.name : `د. ${d.name}`)).join("، ") : "لم يُسند دكتور بعد"}
         breadcrumbs={[{ href: "/dashboard", label: "الرئيسية" }, { href: "/subjects", label: "المواد" }, { label: subject.name }]}
         actions={isAdmin(actor) && <Button asChild variant="outline" size="sm"><Link href={`/subjects/${id}/edit`}><Pencil /> تعديل المادة</Link></Button>}
         className="mb-4"

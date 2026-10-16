@@ -87,16 +87,16 @@ export default async function ImportJobPage({ params, searchParams }: { params: 
             <TableBody>
               {rows.map((r) => (
                 <TableRow key={String(r._id)}>
-                  <TableCell className="tabular-nums text-muted-foreground">{r.rowNumber}</TableCell>
-                  <TableCell className="font-medium">{r.data.fullName || <span className="text-muted-foreground">—</span>}</TableCell>
+                  <TableCell data-label="صف" className="tabular-nums text-muted-foreground">{r.rowNumber}</TableCell>
+                  <TableCell data-cell="title" className="font-medium">{r.data.fullName || <span className="text-muted-foreground">—</span>}</TableCell>
                   <TableCell>{r.data.academicYear}</TableCell>
                   <TableCell>{r.data.department}</TableCell>
-                  <TableCell className="ltr text-start text-xs">{r.data.registrationNumber}</TableCell>
-                  <TableCell>
+                  <TableCell data-cell="hide" className="ltr text-start text-xs">{r.data.registrationNumber}</TableCell>
+                  <TableCell data-cell="trailing">
                     <Badge variant={ROW[r.status][1]}>{ROW[r.status][0]}</Badge>
                     {r.studentCode && <span className="ltr ms-2 font-mono text-xs text-primary">{r.studentCode}</span>}
                   </TableCell>
-                  <TableCell className="max-w-sm text-xs text-destructive">{r.errors.join(" · ")}</TableCell>
+                  <TableCell data-cell="subtitle" className="max-w-sm text-xs text-destructive">{r.errors.join(" · ")}</TableCell>
                 </TableRow>
               ))}
             </TableBody>

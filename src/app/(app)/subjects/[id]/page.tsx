@@ -56,13 +56,13 @@ export default async function SubjectStudentsPage({ params, searchParams }: { pa
           <TableBody>
             {data.items.map((e) => (
               <TableRow key={e.enrollmentId}>
-                <TableCell className="ltr font-mono text-xs font-semibold text-primary">{e.student.code}</TableCell>
-                <TableCell className="font-medium">{e.student.fullName}</TableCell>
+                <TableCell data-cell="subtitle" className="ltr font-mono text-xs font-semibold text-primary">{e.student.code}</TableCell>
+                <TableCell data-cell="title" className="font-medium">{e.student.fullName}</TableCell>
                 <TableCell>{n(st.years, e.student.academicYear)}</TableCell>
                 <TableCell className="text-muted-foreground">{n(st.departments, e.student.department)}</TableCell>
-                <TableCell className="text-xs text-muted-foreground tabular-nums">{formatShortDate(e.effectiveFrom)}</TableCell>
+                <TableCell data-label="من" className="text-xs text-muted-foreground tabular-nums">{formatShortDate(e.effectiveFrom)}</TableCell>
                 {caps.manage && (
-                  <TableCell>
+                  <TableCell data-cell="trailing">
                     <RemoveEnrollment subjectId={id} enrollmentId={e.enrollmentId} name={e.student.fullName} />
                   </TableCell>
                 )}

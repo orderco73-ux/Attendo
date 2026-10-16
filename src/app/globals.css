@@ -195,6 +195,95 @@
   }
 }
 
+/*
+ * iOS list rows on phones. Tables marked `.ios-list` (the default <Table>) stop being grids below 640px:
+ * each row becomes a list cell. Cells opt into a role with data-cell:
+ *   title    → primary line        subtitle → secondary line under it
+ *   trailing → pinned to the end   hide     → not shown on phones
+ *   (no attribute) → small meta text, joined with " · "
+ */
+@media (max-width: 639.98px) {
+  table.ios-list,
+  table.ios-list tbody {
+    display: block;
+  }
+  table.ios-list thead {
+    display: none;
+  }
+  table.ios-list tr {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    min-height: 56px;
+    padding: 11px 16px;
+  }
+  table.ios-list tr:has(> td[data-cell="trailing"]) {
+    padding-inline-end: 7.5rem;
+  }
+  table.ios-list tr:has(> td[data-cell="trailing"][data-wide]) {
+    padding-inline-end: 12.5rem;
+  }
+  table.ios-list td {
+    display: block;
+    min-width: 0;
+    padding: 0;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--muted-foreground);
+    white-space: normal;
+  }
+  table.ios-list td[data-cell="title"] {
+    order: -2;
+    flex-basis: 100%;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--foreground);
+  }
+  table.ios-list td[data-cell="subtitle"] {
+    order: -1;
+    flex-basis: 100%;
+  }
+  /* LTR content (codes, emails) still aligns with the RTL row */
+  table.ios-list td.ltr {
+    text-align: right;
+  }
+  table.ios-list td:not([data-cell]) ~ td:not([data-cell])::before {
+    content: " · ";
+    white-space: pre;
+  }
+  /* Bare numbers get their column name on phones, e.g. "حضور 12" */
+  table.ios-list td:not([data-cell])[data-label]::before {
+    content: attr(data-label) " ";
+    white-space: pre;
+  }
+  table.ios-list td:not([data-cell]) ~ td:not([data-cell])[data-label]::before {
+    content: " · " attr(data-label) " ";
+  }
+  table.ios-list td[data-cell="trailing"] {
+    position: absolute;
+    top: 50%;
+    inset-inline-end: 16px;
+    transform: translateY(-50%);
+    max-width: 12rem;
+    color: var(--foreground);
+  }
+  table.ios-list td[data-cell="hide"],
+  table.ios-list td.hidden {
+    display: none;
+  }
+  /* Checkbox column becomes a leading selector */
+  table.ios-list tr:has(> td[data-cell="select"]) {
+    padding-inline-start: 3rem;
+  }
+  table.ios-list td[data-cell="select"] {
+    position: absolute;
+    top: 50%;
+    inset-inline-start: 16px;
+    transform: translateY(-50%);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

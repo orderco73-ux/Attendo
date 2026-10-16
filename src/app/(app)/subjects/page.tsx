@@ -54,22 +54,22 @@ export default async function SubjectsPage({ searchParams }: { searchParams: Pro
             <TableBody>
               {data.items.map((s) => (
                 <TableRow key={s.id}>
-                  <TableCell>
+                  <TableCell data-cell="title">
                     <Link href={`/subjects/${s.id}`} className="font-medium hover:text-primary">{s.name}</Link>
                     <div className="ltr text-start font-mono text-xs text-muted-foreground">{s.code}</div>
                   </TableCell>
-                  <TableCell className="max-w-64 text-xs text-muted-foreground">
+                  <TableCell data-cell="hide" className="max-w-64 text-xs text-muted-foreground">
                     <div>{names(st.years, s.eligibility.academicYears, "كل السنوات")}</div>
                     <div>{names(st.departments, s.eligibility.departments, "كل التخصصات")}</div>
                   </TableCell>
                   <TableCell className="text-sm">{s.doctors.length ? s.doctors.map((d) => d.name).join("، ") : <Badge variant="warning">غير مسند</Badge>}</TableCell>
-                  <TableCell className="tabular-nums">
+                  <TableCell data-label="المسجلون" className="tabular-nums">
                     {s.enrolled}
                     {s.pending > 0 && <Badge variant="warning" className="ms-2">{s.pending} معلق</Badge>}
                   </TableCell>
                   <TableCell><ActiveBadge active={s.active} on="مفعلة" off="متوقفة" /></TableCell>
                   {admin && (
-                    <TableCell>
+                    <TableCell data-cell="trailing">
                       <Button asChild variant="ghost" size="icon-sm" aria-label="تعديل"><Link href={`/subjects/${s.id}/edit`}><Pencil /></Link></Button>
                     </TableCell>
                   )}

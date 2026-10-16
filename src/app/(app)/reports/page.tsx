@@ -60,18 +60,18 @@ export default async function ReportsPage({ searchParams }: { searchParams: Prom
             <TableBody>
               {rows.map((r) => (
                 <TableRow key={r.subjectId}>
-                  <TableCell>
+                  <TableCell data-cell="title">
                     <Link href={`/subjects/${r.subjectId}/report?${new URLSearchParams(Object.entries({ year: sp.year, department: sp.department, from: sp.from, to: sp.to }).filter(([, v]) => v) as [string, string][])}`} className="font-medium text-primary hover:underline">
                       {r.name}
                     </Link>
                     <div className="ltr text-start font-mono text-xs text-muted-foreground">{r.code}</div>
                   </TableCell>
-                  <TableCell className="text-center tabular-nums">{r.students}</TableCell>
-                  <TableCell className="text-center tabular-nums">{r.lectures}</TableCell>
-                  <TableCell className="text-center tabular-nums text-success">{r.attended}</TableCell>
-                  <TableCell className="text-center tabular-nums text-destructive">{r.absences}</TableCell>
-                  <TableCell className="text-center"><PercentBadge value={r.percentage} threshold={settings.lowAttendanceThreshold} /></TableCell>
-                  <TableCell className="text-center tabular-nums">{r.below}</TableCell>
+                  <TableCell data-label="طلاب" className="text-center tabular-nums">{r.students}</TableCell>
+                  <TableCell data-label="محاضرات" className="text-center tabular-nums">{r.lectures}</TableCell>
+                  <TableCell data-label="حضور" className="text-center tabular-nums text-success">{r.attended}</TableCell>
+                  <TableCell data-label="غياب" className="text-center tabular-nums text-destructive">{r.absences}</TableCell>
+                  <TableCell data-cell="trailing" className="text-center"><PercentBadge value={r.percentage} threshold={settings.lowAttendanceThreshold} /></TableCell>
+                  <TableCell data-label="منخفض" className="text-center tabular-nums">{r.below}</TableCell>
                 </TableRow>
               ))}
             </TableBody>

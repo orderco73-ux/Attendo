@@ -88,11 +88,11 @@ export function CandidatesTable({ subjectId, items, manage, today, total, filter
             const on = selected.includes(s.id);
             return (
               <TableRow key={s.id} className={on ? "bg-brand-soft/50" : undefined}>
-                <TableCell>
+                <TableCell data-cell="select">
                   <Checkbox aria-label={`تحديد ${s.fullName}`} checked={on} onCheckedChange={(c) => setSelected(c ? [...selected, s.id] : selected.filter((x) => x !== s.id))} />
                 </TableCell>
-                <TableCell className="ltr font-mono text-xs font-semibold text-primary">{s.code}</TableCell>
-                <TableCell className="font-medium">{s.fullName}</TableCell>
+                <TableCell data-cell="subtitle" className="ltr font-mono text-xs font-semibold text-primary">{s.code}</TableCell>
+                <TableCell data-cell="title" className="font-medium">{s.fullName}</TableCell>
                 <TableCell>{s.year}</TableCell>
                 <TableCell className="text-muted-foreground">{s.department}</TableCell>
               </TableRow>

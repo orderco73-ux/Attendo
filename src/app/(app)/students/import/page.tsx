@@ -67,12 +67,12 @@ export default async function ImportPage() {
             <TableBody>
               {jobs.map((j) => (
                 <TableRow key={String(j._id)}>
-                  <TableCell><Link className="font-medium text-primary hover:underline" href={`/students/import/${j._id}`}>{j.fileName}</Link></TableCell>
-                  <TableCell className="text-xs text-muted-foreground">{formatDateTime(j.createdAt)}</TableCell>
-                  <TableCell className="tabular-nums">{j.totals.rows}</TableCell>
-                  <TableCell className="tabular-nums text-success">{j.totals.created}</TableCell>
-                  <TableCell className="tabular-nums">{j.totals.invalid} / {j.totals.duplicate}</TableCell>
-                  <TableCell><Badge variant={STATUS[j.status][1]}>{STATUS[j.status][0]}</Badge></TableCell>
+                  <TableCell data-cell="title"><Link className="font-medium text-primary hover:underline" href={`/students/import/${j._id}`}>{j.fileName}</Link></TableCell>
+                  <TableCell data-cell="subtitle" className="text-xs text-muted-foreground">{formatDateTime(j.createdAt)}</TableCell>
+                  <TableCell data-label="صفوف" className="tabular-nums">{j.totals.rows}</TableCell>
+                  <TableCell data-label="أُنشئ" className="tabular-nums text-success">{j.totals.created}</TableCell>
+                  <TableCell data-label="مرفوض/مكرر" className="tabular-nums">{j.totals.invalid} / {j.totals.duplicate}</TableCell>
+                  <TableCell data-cell="trailing"><Badge variant={STATUS[j.status][1]}>{STATUS[j.status][0]}</Badge></TableCell>
                 </TableRow>
               ))}
             </TableBody>

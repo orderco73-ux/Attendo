@@ -109,11 +109,11 @@ export function AttendanceSheet({ lectureId, status, canEdit, items, total, page
               const st = effective(i);
               return (
                 <TableRow key={i.studentId}>
-                  <TableCell>
+                  <TableCell data-cell="title">
                     <div className="font-medium">{i.fullName}</div>
                     <div className="ltr text-start font-mono text-xs text-primary">{i.code}</div>
                   </TableCell>
-                  <TableCell>
+                  <TableCell data-cell="subtitle">
                     <div className="flex items-center gap-1.5">
                       <RecordStatusBadge status={st} />
                       {i.record && i.record.history.length > 0 && (
@@ -153,7 +153,7 @@ export function AttendanceSheet({ lectureId, status, canEdit, items, total, page
                     )}
                   </TableCell>
                   {editable && (
-                    <TableCell>
+                    <TableCell data-cell="trailing" data-wide>
                       <div className="flex justify-end gap-1">
                         {(["present", "absent", "excused"] as const).map((s) => (
                           <button

@@ -55,10 +55,10 @@ export function StructureManager({ structure }: { structure: Structure }) {
                 <TableBody>
                   {structure.colleges.map((c) => (
                     <TableRow key={c.id}>
-                      <TableCell className="font-medium">{c.name}</TableCell>
-                      <TableCell className="ltr text-xs">{c.code}</TableCell>
+                      <TableCell data-cell="title" className="font-medium">{c.name}</TableCell>
+                      <TableCell data-cell="subtitle" className="ltr text-xs">{c.code}</TableCell>
                       <TableCell><ActiveBadge active={c.active} /></TableCell>
-                      <TableCell>
+                      <TableCell data-cell="trailing">
                         <Button variant="ghost" size="icon-sm" aria-label="تعديل" onClick={() => setEditing({ kind: "college", id: c.id, values: { name: c.name, code: c.code, active: c.active } })}>
                           <Pencil />
                         </Button>
@@ -90,12 +90,12 @@ export function StructureManager({ structure }: { structure: Structure }) {
                 <TableBody>
                   {structure.years.map((y) => (
                     <TableRow key={y.id}>
-                      <TableCell className="tabular-nums">{y.level}</TableCell>
-                      <TableCell className="font-medium">{y.name}</TableCell>
-                      <TableCell className="text-muted-foreground">{collegeName(y.college)}</TableCell>
+                      <TableCell data-label="المستوى" className="tabular-nums">{y.level}</TableCell>
+                      <TableCell data-cell="title" className="font-medium">{y.name}</TableCell>
+                      <TableCell data-cell="hide" className="text-muted-foreground">{collegeName(y.college)}</TableCell>
                       <TableCell><Badge variant={y.specializationPolicy === "general_only" ? "muted" : "default"}>{SPECIALIZATION_POLICY_LABELS[y.specializationPolicy]}</Badge></TableCell>
                       <TableCell><ActiveBadge active={y.active} /></TableCell>
-                      <TableCell>
+                      <TableCell data-cell="trailing">
                         <Button variant="ghost" size="icon-sm" aria-label="تعديل" onClick={() => setEditing({ kind: "year", id: y.id, values: { college: y.college, name: y.name, level: y.level, specializationPolicy: y.specializationPolicy, active: y.active } })}>
                           <Pencil />
                         </Button>
@@ -127,12 +127,12 @@ export function StructureManager({ structure }: { structure: Structure }) {
                 <TableBody>
                   {structure.departments.map((d) => (
                     <TableRow key={d.id}>
-                      <TableCell className="font-medium">{d.name}</TableCell>
-                      <TableCell className="ltr text-xs">{d.code}</TableCell>
-                      <TableCell className="text-muted-foreground">{collegeName(d.college)}</TableCell>
+                      <TableCell data-cell="title" className="font-medium">{d.name}</TableCell>
+                      <TableCell data-cell="subtitle" className="ltr text-xs">{d.code}</TableCell>
+                      <TableCell data-cell="hide" className="text-muted-foreground">{collegeName(d.college)}</TableCell>
                       <TableCell>{d.isGeneral ? <Badge variant="muted">بدون تخصص (عام)</Badge> : <Badge>تخصص</Badge>}</TableCell>
                       <TableCell><ActiveBadge active={d.active} /></TableCell>
-                      <TableCell>
+                      <TableCell data-cell="trailing">
                         <Button variant="ghost" size="icon-sm" aria-label="تعديل" onClick={() => setEditing({ kind: "department", id: d.id, values: { college: d.college, name: d.name, code: d.code, isGeneral: d.isGeneral, active: d.active } })}>
                           <Pencil />
                         </Button>
@@ -163,11 +163,11 @@ export function StructureManager({ structure }: { structure: Structure }) {
                 <TableBody>
                   {structure.sections.map((s) => (
                     <TableRow key={s.id}>
-                      <TableCell className="font-medium">{s.name}</TableCell>
+                      <TableCell data-cell="title" className="font-medium">{s.name}</TableCell>
                       <TableCell>{yearName(s.academicYear)}</TableCell>
                       <TableCell className="text-muted-foreground">{deptName(s.department)}</TableCell>
                       <TableCell><ActiveBadge active={s.active} /></TableCell>
-                      <TableCell>
+                      <TableCell data-cell="trailing">
                         <Button variant="ghost" size="icon-sm" aria-label="تعديل" onClick={() => setEditing({ kind: "section", id: s.id, values: { academicYear: s.academicYear, department: s.department ?? "", name: s.name, active: s.active } })}>
                           <Pencil />
                         </Button>

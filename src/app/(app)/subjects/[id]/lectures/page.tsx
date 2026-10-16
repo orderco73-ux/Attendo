@@ -50,7 +50,7 @@ export default async function LecturesPage({ params, searchParams }: { params: P
           <TableBody>
             {data.items.map((l) => (
               <TableRow key={l.id}>
-                <TableCell>
+                <TableCell data-cell="title">
                   <Link href={`/lectures/${l.id}`} className="font-medium text-primary hover:underline">
                     {l.number ? `${l.number}. ` : ""}
                     {l.title}
@@ -64,7 +64,7 @@ export default async function LecturesPage({ params, searchParams }: { params: P
                 <TableCell className="whitespace-nowrap tabular-nums">{formatTime(l.startsAt)} – {formatTime(l.endsAt)}</TableCell>
                 <TableCell className="hidden md:table-cell">{l.venue || "—"}</TableCell>
                 <TableCell className="hidden text-xs md:table-cell">{ATTENDANCE_METHOD_LABELS[l.method]}</TableCell>
-                <TableCell><LectureStatusBadge status={l.status} /></TableCell>
+                <TableCell data-cell="trailing"><LectureStatusBadge status={l.status} /></TableCell>
               </TableRow>
             ))}
           </TableBody>

@@ -56,13 +56,13 @@ export default async function RequestsPage() {
             <TableBody>
               {items.map((e) => (
                 <TableRow key={String(e._id)}>
-                  <TableCell>
+                  <TableCell data-cell="title">
                     <div className="font-medium">{e.student?.fullName}</div>
                     <div className="ltr text-start font-mono text-xs text-primary">{e.student?.code}</div>
                   </TableCell>
                   <TableCell>{e.subject?.name}</TableCell>
                   <TableCell className="text-xs text-muted-foreground">{formatDateTime(e.createdAt)}</TableCell>
-                  <TableCell><EnrollmentBadge status={e.status} /></TableCell>
+                  <TableCell data-cell="trailing"><EnrollmentBadge status={e.status} /></TableCell>
                 </TableRow>
               ))}
             </TableBody>

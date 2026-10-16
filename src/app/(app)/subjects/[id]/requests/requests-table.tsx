@@ -63,10 +63,10 @@ export function RequestsTable({ subjectId, items, showSubject }: { subjectId?: s
         <TableBody>
           {items.map((r) => (
             <TableRow key={r.enrollmentId}>
-              <TableCell>
+              <TableCell data-cell="select">
                 <Checkbox aria-label={`تحديد ${r.fullName}`} checked={selected.includes(r.enrollmentId)} onCheckedChange={(c) => setSelected(c ? [...selected, r.enrollmentId] : selected.filter((x) => x !== r.enrollmentId))} />
               </TableCell>
-              <TableCell>
+              <TableCell data-cell="title">
                 <div className="font-medium">{r.fullName}</div>
                 <div className="ltr text-start font-mono text-xs text-primary">{r.code}</div>
               </TableCell>
@@ -79,7 +79,7 @@ export function RequestsTable({ subjectId, items, showSubject }: { subjectId?: s
                 {r.requestedBy}
                 <div className="text-muted-foreground">{formatDateTime(r.requestedAt)}</div>
               </TableCell>
-              <TableCell>
+              <TableCell data-cell="trailing">
                 <div className="flex gap-1">
                   <Button size="icon-sm" variant="ghost" className="text-success" aria-label="قبول" disabled={pending} onClick={() => decide([r.enrollmentId], "approve")}><Check /></Button>
                   <Button size="icon-sm" variant="ghost" className="text-destructive" aria-label="رفض" disabled={pending} onClick={() => decide([r.enrollmentId], "reject")}><X /></Button>

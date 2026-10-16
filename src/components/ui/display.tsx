@@ -46,11 +46,15 @@ function CardFooter({ className, ...props }: React.ComponentProps<"div">) {
   return <div className={cn("flex items-center gap-2 border-t-[0.5px] px-5 py-3", className)} {...props} />;
 }
 
-function Table({ className, ...props }: React.ComponentProps<"table">) {
+/**
+ * Data table. On phones it renders as an iOS list (see `.ios-list` in globals.css): mark cells with
+ * data-cell="title" | "subtitle" | "trailing" | "select" | "hide". Pass `stack={false}` to keep a
+ * scrollable grid on phones instead.
+ */
+function Table({ className, stack = true, ...props }: React.ComponentProps<"table"> & { stack?: boolean }) {
   return (
     <div className="relative w-full overflow-x-auto overscroll-x-contain">
-      {/* On phones keep cells on one line and let the table scroll sideways instead of wrapping words */}
-      <table className={cn("w-full caption-bottom text-sm max-sm:[&_td]:whitespace-nowrap", className)} {...props} />
+      <table className={cn("w-full caption-bottom text-sm", stack ? "ios-list" : "max-sm:[&_td]:whitespace-nowrap", className)} {...props} />
     </div>
   );
 }
