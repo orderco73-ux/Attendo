@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "attendo-memory",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["tsx", "scripts/dev-memory.ts", "--prod"],
+      "port": 3000
+    }
+  ]
+}
