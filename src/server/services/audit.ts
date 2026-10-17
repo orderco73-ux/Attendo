@@ -61,6 +61,7 @@ export const AUDIT_ACTION_LABELS: Record<string, string> = {
   "lecture.cancel": "إلغاء محاضرة",
   "attendance.mark": "تسجيل حضور",
   "attendance.correct": "تصحيح حضور",
+  "attendance.unmark": "إلغاء تسجيل حضور",
   "settings.update": "تعديل الإعدادات",
   "security.inquiry_blocked": "حظر استعلام متكرر",
   "security.checkin_blocked": "حظر تسجيل حضور متكرر",

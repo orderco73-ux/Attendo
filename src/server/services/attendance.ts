@@ -173,6 +173,39 @@ export async function setAttendanceStatus(actor: Actor, lectureId: string, input
   return { changed: r.changed };
 }
 
+export const clearStatusSchema = z.object({
+  studentId: z.string().regex(/^[a-f0-9]{24}$/i),
+  reason: z.string().trim().max(300).optional(),
+});
+
+/**
+ * Undo a student's mark (subject managers only).
+ * Open session: the record is removed and the student is back to "not marked".
+ * Closed session: unmarked means absent, so the record becomes "absent" as an audited correction (reason required).
+ */
+export async function clearAttendance(actor: Actor, lectureId: string, input: unknown) {
+  const data = clearStatusSchema.parse(input);
+  const { lecture, subject } = await getLectureFor(actor, lectureId, "manage");
+  const status = effectiveStatus(lecture);
+  if (status === "closed") {
+    return setAttendanceStatus(actor, lectureId, { studentId: data.studentId, status: "absent", reason: data.reason });
+  }
+  if (status !== "open") throw invalid("جلسة الحضور غير مفتوحة");
+
+  const studentId = oid(data.studentId);
+  const removed = await AttendanceRecord.findOneAndDelete({ lecture: lecture._id, student: studentId }).lean();
+  if (!removed) return { changed: false };
+  const st = await Student.findById(studentId).select("code").lean();
+  await audit(actor, {
+    action: "attendance.unmark",
+    summary: `إلغاء تسجيل ${st?.code ?? "طالب"} (${removed.status}) - ${lecture.title} (${subject.code})`,
+    entityType: "lecture",
+    entityId: lecture._id,
+    meta: { student: st?.code, previous: removed.status, history: removed.history },
+  });
+  return { changed: true };
+}
+
 /** Bulk mark all unmarked enrolled students present (doctor convenience during an open session). */
 export async function markAllPresent(actor: Actor, lectureId: string) {
   const { lecture, subject } = await getLectureFor(actor, lectureId, "manage");

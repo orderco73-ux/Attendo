@@ -2,7 +2,7 @@
 import { revalidatePath } from "next/cache";
 import { decideEnrollments, enrollAllEligible, enrollStudents, removeEnrollment } from "@/server/services/enrollment";
 import { cancelLecture, closeLecture, createLectures, openLecture, regenerateCheckinToken, updateLecture } from "@/server/services/lectures";
-import { lectureSheet, markAllPresent, setAttendanceStatus, staffMarkPresent } from "@/server/services/attendance";
+import { clearAttendance, lectureSheet, markAllPresent, setAttendanceStatus, staffMarkPresent } from "@/server/services/attendance";
 import type { StudentQuery } from "@/server/services/students";
 import { run } from "./_run";
 
@@ -104,6 +104,14 @@ export async function searchLectureStudentsAction(lectureId: string, q: string) 
   return run(async (a) => {
     const r = await lectureSheet(a, lectureId, { q: q.slice(0, 60), pageSize: 8 });
     return r.items.map((i) => ({ studentId: i.student.id, code: i.student.code, fullName: i.student.fullName, status: i.record?.status ?? null }));
+  });
+}
+
+export async function clearStatusAction(lectureId: string, input: unknown) {
+  return run(async (a) => {
+    const r = await clearAttendance(a, lectureId, input);
+    lec(lectureId);
+    return r;
   });
 }
 

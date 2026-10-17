@@ -12,7 +12,7 @@ import { FilterBar, ParamTabs } from "@/components/shared/filters";
 import { Pagination } from "@/components/shared/pagination";
 import { RecordStatusBadge, SourceBadge } from "@/components/shared/badges";
 import { ConfirmAction } from "@/components/shared/confirm";
-import { markAllPresentAction, setStatusAction } from "@/server/actions/teaching";
+import { clearStatusAction, markAllPresentAction, setStatusAction } from "@/server/actions/teaching";
 import { RECORD_SOURCE_LABELS, RECORD_STATUS_LABELS, type LectureStatus, type RecordSource, type RecordStatus } from "@/lib/constants";
 import { formatDateTime, formatTime } from "@/lib/time";
 import { cn } from "@/lib/utils";
@@ -40,6 +40,8 @@ export function AttendanceSheet({ lectureId, status, canEdit, items, total, page
   const router = useRouter();
   const [pending, start] = useTransition();
   const [correction, setCorrection] = useState<{ item: Item; to: RecordStatus } | null>(null);
+  // Pressing the already-active "present"/"excused" asks to undo that mark.
+  const [undo, setUndo] = useState<{ item: Item; from: RecordStatus } | null>(null);
   const [reason, setReason] = useState("");
   const closed = status === "closed";
   const editable = canEdit && (status === "open" || status === "closed");
@@ -55,6 +57,25 @@ export function AttendanceSheet({ lectureId, status, canEdit, items, total, page
     });
 
   const effective = (i: Item): RecordStatus | null => i.record?.status ?? (closed ? "absent" : null);
+
+  const clear = (item: Item, why?: string) =>
+    start(async () => {
+      const r = await clearStatusAction(lectureId, { studentId: item.studentId, reason: why });
+      if (!r.ok) return void toast.error(r.error);
+      toast.success(closed ? `${item.fullName}: غائب` : `تم إلغاء تسجيل ${item.fullName}`);
+      setUndo(null);
+      setReason("");
+      router.refresh();
+    });
+
+  const onPress = (i: Item, s: RecordStatus, current: RecordStatus | null) => {
+    if (current === s) {
+      if (s !== "absent" && i.record) setUndo({ item: i, from: s });
+      return;
+    }
+    if (closed) setCorrection({ item: i, to: s });
+    else apply(i, s);
+  };
 
   return (
     <Section
@@ -110,10 +131,14 @@ export function AttendanceSheet({ lectureId, status, canEdit, items, total, page
               return (
                 <TableRow key={i.studentId}>
                   <TableCell data-cell="title">
-                    <div className="font-medium">{i.fullName}</div>
-                    <div className="ltr text-start font-mono text-xs text-primary">{i.code}</div>
+                    {/* Name and code share one line to keep the phone card compact */}
+                    <div className="flex items-baseline gap-2 whitespace-nowrap">
+                      <span className="text-[13px] font-medium">{i.fullName}</span>
+                      <span className="ltr font-mono text-[11px] font-normal text-primary">{i.code}</span>
+                    </div>
                   </TableCell>
-                  <TableCell data-cell="subtitle">
+                  {/* Status column: shown on larger screens; on phones the highlighted button already shows it */}
+                  <TableCell data-cell="hide">
                     <div className="flex items-center gap-1.5">
                       <RecordStatusBadge status={st} />
                       {i.record && i.record.history.length > 0 && (
@@ -153,15 +178,17 @@ export function AttendanceSheet({ lectureId, status, canEdit, items, total, page
                     )}
                   </TableCell>
                   {editable && (
-                    <TableCell data-cell="trailing" data-wide>
-                      <div className="flex justify-end gap-1">
+                    <TableCell data-cell="actions">
+                      <div className="flex gap-1 sm:justify-end">
                         {(["present", "absent", "excused"] as const).map((s) => (
                           <button
                             key={s}
                             data-on={st === s}
-                            disabled={pending || st === s}
-                            onClick={() => (closed ? setCorrection({ item: i, to: s }) : apply(i, s))}
-                            className={cn("pressable h-7 cursor-pointer rounded-full bg-fill px-3 text-xs font-medium transition-colors hover:bg-fill-strong disabled:cursor-default", BTN[s])}
+                            aria-pressed={st === s}
+                            title={st === s && s !== "absent" && i.record ? "اضغط لإلغاء التسجيل" : undefined}
+                            disabled={pending || (st === s && (s === "absent" || !i.record))}
+                            onClick={() => onPress(i, s, st)}
+                            className={cn("pressable h-6 cursor-pointer rounded-full bg-fill px-2.5 text-[11px] font-medium transition-colors hover:bg-fill-strong disabled:cursor-default", BTN[s])}
                           >
                             {RECORD_STATUS_LABELS[s]}
                           </button>
@@ -176,6 +203,29 @@ export function AttendanceSheet({ lectureId, status, canEdit, items, total, page
         </Table>
       )}
       <Pagination page={page} pageSize={pageSize} total={total} />
+
+      <Dialog open={!!undo} onOpenChange={(o) => !o && (setUndo(null), setReason(""))}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>{undo?.from === "excused" ? "إلغاء العذر؟" : "إلغاء الحضور؟"}</DialogTitle>
+            <DialogDescription>
+              {undo &&
+                (closed
+                  ? `سيُسجل ${undo.item.fullName} غائبًا في هذه المحاضرة. اكتب سبب التصحيح.`
+                  : `سيعود ${undo.item.fullName} إلى «لم يسجل». يمكنك تسجيله مرة أخرى في أي وقت أثناء فتح الجلسة.`)}
+            </DialogDescription>
+          </DialogHeader>
+          {closed && (
+            <Textarea value={reason} onChange={(e) => setReason(e.target.value)} placeholder="سبب التصحيح (إلزامي)" maxLength={300} aria-label="سبب التصحيح" />
+          )}
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setUndo(null)}>تراجع</Button>
+            <Button variant="destructive" loading={pending} disabled={closed && reason.trim().length < 3} onClick={() => undo && clear(undo.item, closed ? reason.trim() : undefined)}>
+              {undo?.from === "excused" ? "إلغاء العذر" : "إلغاء الحضور"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
 
       <Dialog open={!!correction} onOpenChange={(o) => !o && setCorrection(null)}>
         <DialogContent className="max-w-md">

@@ -168,6 +168,10 @@
     direction: ltr;
     unicode-bidi: isolate;
   }
+  /* …but block-level LTR snippets (codes under names) still line up with the RTL column */
+  .ltr.text-start {
+    text-align: right;
+  }
 }
 
 @layer utilities {
@@ -266,6 +270,13 @@
     inset-inline-end: 16px;
     transform: translateY(-50%);
     max-width: 12rem;
+    color: var(--foreground);
+  }
+  /* Full-width action row under the text (e.g. attendance buttons) */
+  table.ios-list td[data-cell="actions"] {
+    order: 5;
+    flex-basis: 100%;
+    margin-top: 8px;
     color: var(--foreground);
   }
   table.ios-list td[data-cell="hide"],

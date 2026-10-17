@@ -8,7 +8,7 @@ import { createImportJob, processImportBatch, getImportJob } from "@/server/serv
 import { enrollStudents, listSubjectStudents, decideEnrollments } from "@/server/services/enrollment";
 import { saveSubject, listSubjects } from "@/server/services/subjects";
 import { createLectures, openLecture, closeLecture, reconcileLectures, cancelLecture } from "@/server/services/lectures";
-import { staffMarkPresent, setAttendanceStatus, selfCheckin } from "@/server/services/attendance";
+import { staffMarkPresent, setAttendanceStatus, selfCheckin, clearAttendance } from "@/server/services/attendance";
 import { subjectReport } from "@/server/services/reports";
 import { inquire } from "@/server/services/inquiry";
 import { studentQrPayload } from "@/server/qr";
@@ -273,6 +273,31 @@ describe("attendance engine", () => {
     expect(await selfCheckin({ token, qr: studentQrPayload(s2.code), lat: 30.0445, lng: 31.2358, accuracy: 20 }, ctx)).toMatchObject({ ok: false, reason: "device_used" });
     const s3 = await Student.findOne({ code: { $nin: [s1.code, s2.code] } }).lean();
     expect(await selfCheckin({ token, qr: studentQrPayload(s3!.code), lat: 30.0445, lng: 31.2358, accuracy: 20 }, { ip: "1.1.1.1", deviceId: "dev-2" })).toMatchObject({ ok: false, reason: "not_enrolled" });
+  });
+});
+
+describe("undo attendance", () => {
+  it("removes the mark while open, becomes an audited absence after closure, and is doctor-only", async () => {
+    const { doctor, subjectId, s1 } = await setupSubject();
+    await enrollStudents(doctor, subjectId, { studentIds: [s1.id] });
+    const [lectureId] = await createLectures(doctor, subjectId, lectureInput());
+    await openLecture(doctor, lectureId);
+    await staffMarkPresent(doctor, lectureId, { code: s1.code });
+
+    const leader = await makeUser("staff", { permissions: ["attendance.mark"], scope: { college: S.college._id, academicYears: [S.years[0]._id] } });
+    await expect(clearAttendance(leader, lectureId, { studentId: s1.id })).rejects.toBeInstanceOf(AppError);
+
+    expect(await clearAttendance(doctor, lectureId, { studentId: s1.id })).toEqual({ changed: true });
+    expect(await AttendanceRecord.countDocuments({ lecture: lectureId })).toBe(0);
+    expect(await clearAttendance(doctor, lectureId, { studentId: s1.id })).toEqual({ changed: false });
+
+    await staffMarkPresent(doctor, lectureId, { code: s1.code });
+    await closeLecture(doctor, lectureId);
+    await expect(clearAttendance(doctor, lectureId, { studentId: s1.id })).rejects.toMatchObject({ code: "VALIDATION" });
+    await clearAttendance(doctor, lectureId, { studentId: s1.id, reason: "تسجيل بالخطأ" });
+    const rec = await AttendanceRecord.findOne({ lecture: lectureId, student: s1.id }).lean();
+    expect(rec?.status).toBe("absent");
+    expect(rec?.source).toBe("doctor_correction");
   });
 });
 
