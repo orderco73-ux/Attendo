@@ -223,7 +223,7 @@
     padding: 11px 16px;
   }
   table.ios-list tr:has(> td[data-cell="trailing"]) {
-    padding-inline-end: 7.5rem;
+    padding-inline-end: 6rem;
   }
   table.ios-list tr:has(> td[data-cell="trailing"][data-wide]) {
     padding-inline-end: 12.5rem;

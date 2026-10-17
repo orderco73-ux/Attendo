@@ -22,7 +22,7 @@ function run(cmd: string, env: NodeJS.ProcessEnv) {
 async function main() {
   mkdirSync(".tmp", { recursive: true });
   const dbPath = mkdtempSync(path.join(path.resolve(".tmp"), "dev-db-"));
-  const mongod = await MongoMemoryServer.create({ instance: { port: Number(process.env.MEMORY_DB_PORT) || 27027, dbPath } });
+  const mongod = await MongoMemoryServer.create({ instance: { port: Number(process.env.MEMORY_DB_PORT) || 27027, dbPath, launchTimeout: 60_000 } });
   const uri = mongod.getUri("attendo");
   const env = {
     ...process.env,

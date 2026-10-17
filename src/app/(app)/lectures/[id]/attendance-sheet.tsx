@@ -2,11 +2,25 @@
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { History, UsersRound } from "lucide-react";
+import { Check, Ellipsis, History, UsersRound } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/display";
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, Popover, PopoverContent, PopoverTrigger } from "@/components/ui/overlay";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/overlay";
 import { Section, EmptyState } from "@/components/shared/page";
 import { FilterBar, ParamTabs } from "@/components/shared/filters";
 import { Pagination } from "@/components/shared/pagination";
@@ -178,21 +192,48 @@ export function AttendanceSheet({ lectureId, status, canEdit, items, total, page
                     )}
                   </TableCell>
                   {editable && (
-                    <TableCell data-cell="actions">
-                      <div className="flex gap-1 sm:justify-end">
-                        {(["present", "absent", "excused"] as const).map((s) => (
-                          <button
-                            key={s}
-                            data-on={st === s}
-                            aria-pressed={st === s}
-                            title={st === s && s !== "absent" && i.record ? "اضغط لإلغاء التسجيل" : undefined}
-                            disabled={pending || (st === s && (s === "absent" || !i.record))}
-                            onClick={() => onPress(i, s, st)}
-                            className={cn("pressable h-6 cursor-pointer rounded-full bg-fill px-2.5 text-[11px] font-medium transition-colors hover:bg-fill-strong disabled:cursor-default", BTN[s])}
-                          >
-                            {RECORD_STATUS_LABELS[s]}
-                          </button>
-                        ))}
+                    <TableCell data-cell="trailing">
+                      {/* "Present" stays one tap away; absent/excused live in the ⋯ menu (same row as the name) */}
+                      <div className="flex items-center justify-end gap-1">
+                        <button
+                          data-on={st === "present"}
+                          aria-pressed={st === "present"}
+                          title={st === "present" && i.record ? "اضغط لإلغاء التسجيل" : undefined}
+                          disabled={pending}
+                          onClick={() => onPress(i, "present", st)}
+                          className={cn("pressable h-6 cursor-pointer rounded-full bg-fill px-2.5 text-[11px] font-medium transition-colors hover:bg-fill-strong disabled:cursor-default", BTN.present)}
+                        >
+                          {RECORD_STATUS_LABELS.present}
+                        </button>
+                        <DropdownMenu dir="rtl">
+                          <DropdownMenuTrigger asChild>
+                            <button
+                              disabled={pending}
+                              aria-label={`خيارات أخرى لـ ${i.fullName}`}
+                              data-on={st === "absent" || st === "excused"}
+                              className={cn(
+                                "pressable grid size-6 cursor-pointer place-items-center rounded-full bg-fill text-muted-foreground transition-colors hover:bg-fill-strong",
+                                st === "absent" && "bg-destructive text-white hover:bg-destructive",
+                                st === "excused" && "bg-warning text-white hover:bg-warning",
+                              )}
+                            >
+                              <Ellipsis className="size-3.5" />
+                            </button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent align="end" className="min-w-36">
+                            {(["absent", "excused"] as const).map((s) => (
+                              <DropdownMenuItem
+                                key={s}
+                                disabled={st === s && (s === "absent" || !i.record)}
+                                onSelect={() => onPress(i, s, st)}
+                                className={cn(s === "absent" ? "text-destructive" : "text-warning")}
+                              >
+                                <span className="flex-1">{RECORD_STATUS_LABELS[s]}</span>
+                                {st === s && <Check className="!text-current" />}
+                              </DropdownMenuItem>
+                            ))}
+                          </DropdownMenuContent>
+                        </DropdownMenu>
                       </div>
                     </TableCell>
                   )}
